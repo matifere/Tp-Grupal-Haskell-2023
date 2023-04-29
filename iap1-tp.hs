@@ -59,7 +59,8 @@ amigosDeAuxiliar rels u | length rels == 0 = []
 
 -- describir qué hace la función: devuelve la cantidad de amigos de un usuario dado de una red social dada.
 cantidadDeAmigos :: RedSocial -> Usuario -> Int
-cantidadDeAmigos = undefined
+cantidadDeAmigos red u = length (amigosDe red u)
+
 
 -- describir qué hace la función: devuelve al usuario con más amigos de una red social dada.
 usuarioConMasAmigos :: RedSocial -> Usuario
