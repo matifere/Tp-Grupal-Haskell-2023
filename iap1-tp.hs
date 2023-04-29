@@ -52,10 +52,10 @@ amigosDe red u = amigosDeAuxiliar (relaciones red) u
 --Esta función auxiliar itera a través de una lista de relaciones y devuelve una lista con los usuarios que estén en una relación con el usuario dado
 amigosDeAuxiliar :: [Relacion] -> Usuario -> [Usuario]
 amigosDeAuxiliar rels u | length rels == 0 = []
-                        | (fst (head rels) == u) = snd (head rels)  : amigosDeAuxiliar (tail rels) u
+                        | (fst (head rels) == u) = snd (head rels) : amigosDeAuxiliar (tail rels) u
                         | (snd (head rels) == u) = fst (head rels) : amigosDeAuxiliar (tail rels) u
                         | otherwise = amigosDeAuxiliar (tail rels) u
-                        
+
 
 -- describir qué hace la función: devuelve la cantidad de amigos de un usuario dado de una red social dada.
 cantidadDeAmigos :: RedSocial -> Usuario -> Int
