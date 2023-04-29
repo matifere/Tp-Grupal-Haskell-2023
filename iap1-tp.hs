@@ -37,7 +37,12 @@ likesDePublicacion (_, _, us) = us
 -- Ejercicios
 
 nombresDeUsuarios :: RedSocial -> [String]
-nombresDeUsuarios = undefined
+nombresDeUsuarios red = nombresDeUsuariosAuxiliar (usuarios red)
+
+--Esta función auxiliar itera 
+nombresDeUsuariosAuxiliar :: [Usuario] -> [String]
+nombresDeUsuariosAuxiliar us    | length us == 0 = [] 
+                                | otherwise = [nombreDeUsuario (head us)] ++ nombresDeUsuariosAuxiliar (tail us)
 
 -- describir qué hace la función: devuelve la lista de amigos de un usuario dado de una red social dada.
 amigosDe :: RedSocial -> Usuario -> [Usuario]
