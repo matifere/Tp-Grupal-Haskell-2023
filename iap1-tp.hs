@@ -39,14 +39,23 @@ likesDePublicacion (_, _, us) = us
 nombresDeUsuarios :: RedSocial -> [String]
 nombresDeUsuarios red = nombresDeUsuariosAuxiliar (usuarios red)
 
---Esta función auxiliar itera 
+--Esta función auxiliar itera a través de una lista de usuarios y devuelve una lista con sólo los nombres
 nombresDeUsuariosAuxiliar :: [Usuario] -> [String]
 nombresDeUsuariosAuxiliar us    | length us == 0 = [] 
-                                | otherwise = [nombreDeUsuario (head us)] ++ nombresDeUsuariosAuxiliar (tail us)
+                                | otherwise = nombreDeUsuario (head us) : nombresDeUsuariosAuxiliar (tail us)
+
 
 -- describir qué hace la función: devuelve la lista de amigos de un usuario dado de una red social dada.
 amigosDe :: RedSocial -> Usuario -> [Usuario]
-amigosDe = undefined
+amigosDe red u = amigosDeAuxiliar (relaciones red) u
+
+--Esta función auxiliar itera a través de una lista de relaciones y devuelve una lista con los usuarios que estén en una relación con el usuario dado
+amigosDeAuxiliar :: [Relacion] -> Usuario -> [Usuario]
+amigosDeAuxiliar rels u | length rels == 0 = []
+                        | (fst (head rels) == u) = snd (head rels)  : amigosDeAuxiliar (tail rels) u
+                        | (snd (head rels) == u) = fst (head rels) : amigosDeAuxiliar (tail rels) u
+                        | otherwise = amigosDeAuxiliar (tail rels) u
+                        
 
 -- describir qué hace la función: devuelve la cantidad de amigos de un usuario dado de una red social dada.
 cantidadDeAmigos :: RedSocial -> Usuario -> Int
