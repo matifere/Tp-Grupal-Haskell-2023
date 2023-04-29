@@ -2,7 +2,7 @@
 --
 -- Nombre de Grupo: CS1.6NoSteam
 -- Integrante 1: Guillermo Francisco Cozza, guiczza@gmail.com, 560/23
--- Integrante 2: Nombre Apellido, email, LU
+-- Integrante 2: Matías Ferechian, matifere@gmail.com, 693/23
 -- Integrante 3: Nombre Apellido, email, LU
 -- Integrante 4: Nombre Apellido, email, LU
 
