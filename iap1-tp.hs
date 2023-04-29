@@ -1,7 +1,7 @@
 -- Completar con los datos del grupo
 --
--- Nombre de Grupo: xx
--- Integrante 1: Nombre Apellido, email, LU
+-- Nombre de Grupo: CS1.6NoSteam
+-- Integrante 1: Guillermo Francisco Cozza, guiczza@gmail.com, 560/23
 -- Integrante 2: Nombre Apellido, email, LU
 -- Integrante 3: Nombre Apellido, email, LU
 -- Integrante 4: Nombre Apellido, email, LU
@@ -67,7 +67,7 @@ publicacionesQueLeGustanA = undefined
 lesGustanLasMismasPublicaciones :: RedSocial -> Usuario -> Usuario -> Bool
 lesGustanLasMismasPublicaciones = undefined
 
--- describir qué hace la función: .....
+-- describir qué hace la función: devuelve True si existe otro usuario en la red social provista distinto al usuario provisto que dio like a todas las publicaciones de usuario provisto (n° publicaciones > 0). Sino devuelve False.
 tieneUnSeguidorFiel :: RedSocial -> Usuario -> Bool
 tieneUnSeguidorFiel = undefined
 
