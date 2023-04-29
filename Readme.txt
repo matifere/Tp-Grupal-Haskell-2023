@@ -1,1 +1,5 @@
-si estas leyendo esto es porque descargaste correctamente el repo :D
+--BIENVENIDO AL REPO--
+
+
+
+..estamos haciendo los predicados auxiliares..
