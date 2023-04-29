@@ -64,7 +64,7 @@ cantidadDeAmigos red u = length (amigosDe red u)
 
 -- describir qué hace la función: devuelve al usuario con más amigos de una red social dada.
 usuarioConMasAmigos :: RedSocial -> Usuario
-usuarioConMasAmigos = undefined
+usuarioConMasAmigos = undefined --"psst," susurró Guillermo, "En esta implementación va a ser útil usar cantidadDeAmigos"
 
 -- describir qué hace la función: devuelve True si la red social dada tiene algún usuario con más (mayor estricto) de 1000000 amigos. Sino devuelve False.
 estaRobertoCarlos :: RedSocial -> Bool

@@ -1,5 +1,8 @@
 --BIENVENIDO AL REPO--
 
 
-
-..estamos haciendo los predicados auxiliares..
+Funciones implementadas por:
+    Guillermo:
+        nombresDeUsuarios
+        amigosDe
+        cantidadDeAmigos
