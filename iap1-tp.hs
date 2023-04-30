@@ -49,7 +49,7 @@ cantidadDeAmigos red u = length (amigosDe red u)
 
 -- describir qué hace la función: devuelve al usuario con más amigos de una red social dada.
 usuarioConMasAmigos :: RedSocial -> Usuario
-usuarioConMasAmigos = undefined --"psst," susurró Guillermo, "En esta implementación va a ser útil usar cantidadDeAmigos"
+usuarioConMasAmigos = undefined --A quién concierna a futuro, en esta implementación va a ser útil usar cantidadDeAmigos, que era otro que ya implementé.
 
 -- describir qué hace la función: devuelve True si la red social dada tiene algún usuario con más (mayor estricto) de 1000000 amigos. Sino devuelve False.
 estaRobertoCarlos :: RedSocial -> Bool
@@ -82,12 +82,12 @@ existeSecuenciaDeAmigos = undefined
 
 --Esta función auxiliar itera a través de una lista de usuarios y devuelve una lista con sólo los nombres
 nombresDeUsuariosAuxiliar :: [Usuario] -> [String]
-nombresDeUsuariosAuxiliar us    | length us == 0 = [] 
-                                | otherwise = nombreDeUsuario (head us) : nombresDeUsuariosAuxiliar (tail us)
+nombresDeUsuariosAuxiliar [] = [] 
+nombresDeUsuariosAuxiliar us = nombreDeUsuario (head us) : nombresDeUsuariosAuxiliar (tail us)
 
 --Esta función auxiliar itera a través de una lista de relaciones y devuelve una lista con los usuarios que estén en una relación con el usuario dado
 amigosDeAuxiliar :: [Relacion] -> Usuario -> [Usuario]
-amigosDeAuxiliar rels u | length rels == 0 = []
-                        | (fst (head rels) == u) = snd (head rels) : amigosDeAuxiliar (tail rels) u
+amigosDeAuxiliar [] _ = []
+amigosDeAuxiliar rels u | (fst (head rels) == u) = snd (head rels) : amigosDeAuxiliar (tail rels) u
                         | (snd (head rels) == u) = fst (head rels) : amigosDeAuxiliar (tail rels) u
                         | otherwise = amigosDeAuxiliar (tail rels) u
