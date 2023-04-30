@@ -49,7 +49,7 @@ cantidadDeAmigos red u = length (amigosDe red u)
 
 -- describir qué hace la función: devuelve al usuario con más amigos de una red social dada.
 usuarioConMasAmigos :: RedSocial -> Usuario
-usuarioConMasAmigos = undefined --A quién concierna a futuro, en esta implementación va a ser útil usar cantidadDeAmigos, que era otro que ya implementé.
+usuarioConMasAmigos (usuarios, relaciones, publicaciones) = masAmigos (usuarios, relaciones, publicaciones) usuarios
 
 -- describir qué hace la función: devuelve True si la red social dada tiene algún usuario con más (mayor estricto) de 1000000 amigos. Sino devuelve False.
 estaRobertoCarlos :: RedSocial -> Bool
@@ -91,3 +91,10 @@ amigosDeAuxiliar [] _ = []
 amigosDeAuxiliar rels u | (fst (head rels) == u) = snd (head rels) : amigosDeAuxiliar (tail rels) u
                         | (snd (head rels) == u) = fst (head rels) : amigosDeAuxiliar (tail rels) u
                         | otherwise = amigosDeAuxiliar (tail rels) u
+
+--Esta funcion auxiliar se encarga de comparar que usuario tiene mas amigos dentro de una lista
+masAmigos :: RedSocial -> [Usuario] -> Usuario
+masAmigos red (x:y:xs) | length (xs) == 0 && cantidadDeAmigos red x >= cantidadDeAmigos red y = x
+                       | length (xs) == 0 && cantidadDeAmigos red x < cantidadDeAmigos red y = y
+                       | cantidadDeAmigos red x >= cantidadDeAmigos red y = masAmigos red (x:xs)
+                       | cantidadDeAmigos red x < cantidadDeAmigos red y = masAmigos red (y:xs)
