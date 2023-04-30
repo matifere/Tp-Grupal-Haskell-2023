@@ -6,3 +6,8 @@ Funciones implementadas por:
         nombresDeUsuarios
         amigosDe
         cantidadDeAmigos
+    
+    Mati:
+        usuarioConMasAmigos
+        estaRobertoCarlos
+        publicacionesDe
