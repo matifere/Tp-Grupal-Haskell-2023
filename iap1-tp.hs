@@ -67,7 +67,7 @@ publicacionesQueLeGustanA = undefined
 lesGustanLasMismasPublicaciones :: RedSocial -> Usuario -> Usuario -> Bool
 lesGustanLasMismasPublicaciones = undefined
 
--- describir qué hace la función: devuelve True si existe otro usuario en la red social dada que dio like a todas las publicaciones de usuario dados (n° publicaciones > 0). Sino devuelve False.
+-- describir qué hace la función: devuelve True si existe otro usuario en la red social dada que dio like a todas las publicaciones del usuario dado (n° publicaciones > 0). Sino devuelve False.
 tieneUnSeguidorFiel :: RedSocial -> Usuario -> Bool
 tieneUnSeguidorFiel = undefined
 
