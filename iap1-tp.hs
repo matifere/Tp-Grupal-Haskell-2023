@@ -68,8 +68,14 @@ lesGustanLasMismasPublicaciones :: RedSocial -> Usuario -> Usuario -> Bool
 lesGustanLasMismasPublicaciones = undefined
 
 -- describir qué hace la función: devuelve True si existe otro usuario en la red social dada que dio like a todas las publicaciones del usuario dado (n° publicaciones > 0). Sino devuelve False.
-tieneUnSeguidorFiel :: RedSocial -> Usuario -> Bool
-tieneUnSeguidorFiel = undefined
+--tieneUnSeguidorFiel :: RedSocial -> Usuario -> Bool
+--tieneUnSeguidorFiel red u = tieneUnSeguidorFielAuxiliar (publicacionesDe red u) u --llama a la auxiliar con los meGustaDePublicacion de la primera de (publicacionesDe usuario), con (publicacionesDe usuario)
+
+
+{-
+tieneUnSeguidorFielAuxiliar :: [Usuario] -> [Publicacion] -> Bool
+tieneUnSeguidorFielAuxiliar --se fija si al menos uno de los de la lista usuarios le dio meGusta a todas las publicaciones de la lista y es distinto del creador de la publicacion
+-}
 
 -- describir qué hace la función: Dados una red social y dos usuarios, devuelve True si existe una cadena de amistades que relaciona directa o indirectamente a los dos usuarios. Sino devuelve false (esto está bien interpretado de la especificación?)
 existeSecuenciaDeAmigos :: RedSocial -> Usuario -> Usuario -> Bool
