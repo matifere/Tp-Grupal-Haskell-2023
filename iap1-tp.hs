@@ -3,7 +3,7 @@
 -- Nombre de Grupo: CS1.6NoSteam
 -- Integrante 1: Guillermo Francisco Cozza, guiczza@gmail.com, 560/23
 -- Integrante 2: Matías Ferechian, matifere@gmail.com, 693/23
--- Integrante 3: Nombre Apellido, email, LU
+-- Integrante 3: Thiago Ghianni, ghiannithiago@gmail.com, 1182/82
 -- Integrante 4: Nombre Apellido, email, LU
 
 type Usuario = (Integer, String) -- (id, nombre)
@@ -61,7 +61,7 @@ publicacionesDe = undefined
 
 -- describir qué hace la función: devuelve la lista de publicaciones de una red social dada que le gustan a un usuario dado
 publicacionesQueLeGustanA :: RedSocial -> Usuario -> [Publicacion]
-publicacionesQueLeGustanA = undefined
+publicacionesQueLeGustanA (usuarios, relaciones, publicaciones) usr = leGustaLaPublicacion publicaciones usr
 
 -- describir qué hace la función: devuelve True si las listas de publicaciones que les gustan a dos usuarios son idénticas (esto está bien interpretado de la especificación?)
 lesGustanLasMismasPublicaciones :: RedSocial -> Usuario -> Usuario -> Bool
@@ -104,3 +104,13 @@ masAmigos red (x:y:xs) | length (xs) == 0 && cantidadDeAmigos red x >= cantidadD
                        | length (xs) == 0 && cantidadDeAmigos red x < cantidadDeAmigos red y = y
                        | cantidadDeAmigos red x >= cantidadDeAmigos red y = masAmigos red (x:xs)
                        | cantidadDeAmigos red x < cantidadDeAmigos red y = masAmigos red (y:xs)
+
+leGustaLaPublicacion :: [Publicacion] -> Usuario -> [Publicacion]
+leGustaLaPublicacion (x:xs) usr | (x:xs) == [] = []
+                                | pertenece (likesDePublicacion x) usr = (leGustaLaPublicacion xs usr) ++ [x]
+                                | otherwise = leGustaLaPublicacion xs usr
+                                
+pertenece :: [Usuario] -> Usuario -> Bool
+pertenece (x:xs) usr | xs == [] = False
+                     | x == usr = True
+                     | otherwise = pertenece xs usr
