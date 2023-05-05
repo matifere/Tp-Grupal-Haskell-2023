@@ -111,6 +111,6 @@ leGustaLaPublicacion (x:xs) usr | (x:xs) == [] = []
                                 | otherwise = leGustaLaPublicacion xs usr
                                 
 pertenece :: [Usuario] -> Usuario -> Bool
-pertenece (x:xs) usr | xs == [] = False
+pertenece (x:xs) usr | (x:xs) == [] = False
                      | x == usr = True
                      | otherwise = pertenece xs usr
