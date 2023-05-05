@@ -79,7 +79,7 @@ tieneUnSeguidorFielAuxiliar --se fija si al menos uno de los de la lista usuario
 
 -- describir qué hace la función: Dados una red social y dos usuarios, devuelve True si existe una cadena de amistades que relaciona directa o indirectamente a los dos usuarios. Sino devuelve false (esto está bien interpretado de la especificación?)
 existeSecuenciaDeAmigos :: RedSocial -> Usuario -> Usuario -> Bool
-existeSecuenciaDeAmigos = undefined
+existeSecuenciaDeAmigos red usuario1 usuario2 = existeSecuenciaDeAmigosAuxiliar red  usuario2 [usuario1] [usuario1] 
 
 
 
@@ -114,3 +114,9 @@ pertenece :: [Usuario] -> Usuario -> Bool
 pertenece (x:xs) usr | xs == [] = False
                      | x == usr = True
                      | otherwise = pertenece xs usr
+--Esta funcion auxiliar recorre todos los posibles caminos para ver si se relacionan dos usuarios
+existeSecuenciaDeAmigosAuxiliar :: RedSocial -> Usuario -> [Usuario] -> [Usuario] -> Bool
+existeSecuenciaDeAmigosAuxiliar red usuario2 usuarios_ya_recorridos usuarios_por_recorrer | (usuarios_por_recorrer == []) = False  
+                                                                                          | (head usuarios_por_recorrer) == usuario2 = True
+                                                                                          | pertenece usuarios_ya_recorridos (head usuarios_por_recorrer) = existeSecuenciaDeAmigosAuxiliar red usuario2 usuarios_ya_recorridos (tail usuarios_por_recorrer) 
+                                                                                          | otherwise = existeSecuenciaDeAmigosAuxiliar red usuario2 ((head usuarios_por_recorrer):usuarios_ya_recorridos) ((amigosDe red (head usuarios_por_recorrer))++(tail usuarios_por_recorrer)) 
