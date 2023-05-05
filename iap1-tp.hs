@@ -106,14 +106,18 @@ masAmigos red (x:y:xs) | length (xs) == 0 && cantidadDeAmigos red x >= cantidadD
                        | cantidadDeAmigos red x < cantidadDeAmigos red y = masAmigos red (y:xs)
 
 leGustaLaPublicacion :: [Publicacion] -> Usuario -> [Publicacion]
-leGustaLaPublicacion (x:xs) usr | (x:xs) == [] = []
-                                | pertenece (likesDePublicacion x) usr = (leGustaLaPublicacion xs usr) ++ [x]
-                                | otherwise = leGustaLaPublicacion xs usr
+leGustaLaPublicacion pubs usr   | tail pubs == [] && (pertenece (likesDePublicacion (head pubs)) usr) = [head pubs]
+                                | tail pubs == [] = []
+                                | pertenece (likesDePublicacion (head pubs)) usr = ((leGustaLaPublicacion (tail pubs)) usr) ++ [head pubs]
+                                | otherwise = leGustaLaPublicacion (tail pubs) usr
                                 
-pertenece :: [Usuario] -> Usuario -> Bool
-pertenece (x:xs) usr | (x:xs) == [] = False
-                     | x == usr = True
-                     | otherwise = pertenece xs usr
+pertenece :: (Eq t) => [t] -> t -> Bool
+pertenece list y    | length list == 0 = False
+                    | tail list == [] = ((head list) == y)
+                    | head list == y = True
+                    | otherwise = pertenece (tail list) y
+
+                     
 --Esta funcion auxiliar recorre todos los posibles caminos para ver si se relacionan dos usuarios
 existeSecuenciaDeAmigosAuxiliar :: RedSocial -> Usuario -> [Usuario] -> [Usuario] -> Bool
 existeSecuenciaDeAmigosAuxiliar red usuario2 usuarios_ya_recorridos usuarios_por_recorrer | (usuarios_por_recorrer == []) = False  
