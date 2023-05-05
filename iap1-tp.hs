@@ -113,10 +113,10 @@ leGustaLaPublicacion pubs usr   | tail pubs == [] && (pertenece (likesDePublicac
                      
 --Esta funcion auxiliar recorre todos los posibles caminos para ver si se relacionan dos usuarios
 existeSecuenciaDeAmigosAuxiliar :: RedSocial -> Usuario -> [Usuario] -> [Usuario] -> Bool
-existeSecuenciaDeAmigosAuxiliar red usuario2 usuarios_ya_recorridos usuarios_por_recorrer | (usuarios_por_recorrer == []) = False  
-                                                                                          | (head usuarios_por_recorrer) == usuario2 = True
-                                                                                          | pertenece usuarios_ya_recorridos (head usuarios_por_recorrer) = existeSecuenciaDeAmigosAuxiliar red usuario2 usuarios_ya_recorridos (tail usuarios_por_recorrer) 
-                                                                                          | otherwise = existeSecuenciaDeAmigosAuxiliar red usuario2 ((head usuarios_por_recorrer):usuarios_ya_recorridos) ((amigosDe red (head usuarios_por_recorrer))++(tail usuarios_por_recorrer)) 
+existeSecuenciaDeAmigosAuxiliar red usuario2 usrs_recorridos usrs_por_recorrer  | (usrs_por_recorrer == []) = False  
+                                                                                | (head usrs_por_recorrer) == usuario2 = True
+                                                                                | pertenece usrs_recorridos (head usrs_por_recorrer) = existeSecuenciaDeAmigosAuxiliar red usuario2 usrs_recorridos (tail usrs_por_recorrer) 
+                                                                                | otherwise = existeSecuenciaDeAmigosAuxiliar red usuario2 ((head usrs_por_recorrer):usrs_recorridos) ((amigosDe red (head usrs_por_recorrer))++(tail usrs_por_recorrer)) 
 
 
 --Esta función auxiliar elimina todas las repeticiones de una lista
