@@ -110,13 +110,6 @@ leGustaLaPublicacion pubs usr   | tail pubs == [] && (pertenece (likesDePublicac
                                 | tail pubs == [] = []
                                 | pertenece (likesDePublicacion (head pubs)) usr = ((leGustaLaPublicacion (tail pubs)) usr) ++ [head pubs]
                                 | otherwise = leGustaLaPublicacion (tail pubs) usr
-                                
-pertenece :: (Eq t) => [t] -> t -> Bool
-pertenece list y    | length list == 0 = False
-                    | tail list == [] = ((head list) == y)
-                    | head list == y = True
-                    | otherwise = pertenece (tail list) y
-
                      
 --Esta funcion auxiliar recorre todos los posibles caminos para ver si se relacionan dos usuarios
 existeSecuenciaDeAmigosAuxiliar :: RedSocial -> Usuario -> [Usuario] -> [Usuario] -> Bool
@@ -124,3 +117,17 @@ existeSecuenciaDeAmigosAuxiliar red usuario2 usuarios_ya_recorridos usuarios_por
                                                                                           | (head usuarios_por_recorrer) == usuario2 = True
                                                                                           | pertenece usuarios_ya_recorridos (head usuarios_por_recorrer) = existeSecuenciaDeAmigosAuxiliar red usuario2 usuarios_ya_recorridos (tail usuarios_por_recorrer) 
                                                                                           | otherwise = existeSecuenciaDeAmigosAuxiliar red usuario2 ((head usuarios_por_recorrer):usuarios_ya_recorridos) ((amigosDe red (head usuarios_por_recorrer))++(tail usuarios_por_recorrer)) 
+
+
+--Esta función auxiliar elimina todas las repeticiones de una lista
+sinRepetidos :: (Eq t) => [t] -> [t]
+sinRepetidos list   | length list == 0 = []
+                    | (pertenece (tail list) (head list)) == True = sinRepetidos (tail list)
+                    | otherwise = [head list] ++ sinRepetidos (tail list)
+
+--Esta función auxiliar toma una lista genérica y un elemento del mismo tipo y devuelve true si el elemento está en la lista
+pertenece :: (Eq t) => [t] -> t -> Bool
+pertenece list y    | length list == 0 = False
+                    | tail list == [] = ((head list) == y)
+                    | head list == y = True
+                    | otherwise = pertenece (tail list) y
