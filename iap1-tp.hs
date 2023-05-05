@@ -53,7 +53,7 @@ usuarioConMasAmigos (usuarios, relaciones, publicaciones) = masAmigos (usuarios,
 
 -- describir qué hace la función: devuelve True si la red social dada tiene algún usuario con más (mayor estricto) de 1000000 amigos. Sino devuelve False.
 estaRobertoCarlos :: RedSocial -> Bool
-estaRobertoCarlos = undefined
+estaRobertoCarlos (usuarios, relaciones, publicaciones) = chequearCantidadDeAmigos (usuarios, relaciones, publicaciones) usuarios
 
 -- describir qué hace la función: devuelve la lista de publicaciones de un usuario dado de una red social dada
 publicacionesDe :: RedSocial -> Usuario -> [Publicacion]
@@ -131,3 +131,10 @@ pertenece list y    | length list == 0 = False
                     | tail list == [] = ((head list) == y)
                     | head list == y = True
                     | otherwise = pertenece (tail list) y
+
+--Esta funcion reitera sobre todos los usuarios de una red chequeando si tienen mas de 1000000 de amigos
+chequearCantidadDeAmigos :: RedSocial -> [Usuario] -> Bool
+chequearCantidadDeAmigos _ [] = False
+chequearCantidadDeAmigos k (x:xs) | cantidadDeAmigos k x > 1000000 = True
+                                  | otherwise = chequearCantidadDeAmigos k xs
+
