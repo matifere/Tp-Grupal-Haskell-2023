@@ -137,5 +137,3 @@ chequearCantidadDeAmigos :: RedSocial -> [Usuario] -> Bool
 chequearCantidadDeAmigos _ [] = False
 chequearCantidadDeAmigos k (x:xs) | cantidadDeAmigos k x > 1000000 = True
                                   | otherwise = chequearCantidadDeAmigos k xs
-
---Este comentario no hace nada
