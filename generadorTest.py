@@ -3,7 +3,7 @@ import sys
 
 #tener en cuenta que contamos el usuario 0
 
-cantidadDeUsuarios = 1000001
+cantidadDeUsuarios = 101
 CantUsuario = ""
 DatosUsuario = ""
 Usuarios = []
