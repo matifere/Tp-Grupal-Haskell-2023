@@ -4,7 +4,7 @@
 -- Integrante 1: Guillermo Francisco Cozza, guiczza@gmail.com, 560/23
 -- Integrante 2: Matías Ferechian, matifere@gmail.com, 693/23
 -- Integrante 3: Thiago Ghianni, ghiannithiago@gmail.com, 1182/82
--- Integrante 4: Nombre Apellido, email, LU
+-- Integrante 4: Fabrizio Serraiocco, fabrizioserraiocco@gmail.com, 677/23
 
 type Usuario = (Integer, String) -- (id, nombre)
 type Relacion = (Usuario, Usuario) -- usuarios que se relacionan
