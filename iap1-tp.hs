@@ -79,7 +79,7 @@ tieneUnSeguidorFielAuxiliar --se fija si al menos uno de los de la lista usuario
 
 -- describir qué hace la función: Dados una red social y dos usuarios, devuelve True si existe una cadena de amistades que relaciona directa o indirectamente a los dos usuarios. Sino devuelve false (esto está bien interpretado de la especificación?)
 existeSecuenciaDeAmigos :: RedSocial -> Usuario -> Usuario -> Bool
-existeSecuenciaDeAmigos red usuario1 usuario2 = existeSecuenciaDeAmigosAuxiliar red  usuario2 [usuario1] [usuario1] 
+existeSecuenciaDeAmigos red usuario1 usuario2 = existeSecuenciaDeAmigosAuxiliar red  usuario2 [] [usuario1] 
 
 
 
@@ -137,4 +137,3 @@ chequearCantidadDeAmigos :: RedSocial -> [Usuario] -> Bool
 chequearCantidadDeAmigos _ [] = False
 chequearCantidadDeAmigos k (x:xs) | cantidadDeAmigos k x > 1000000 = True
                                   | otherwise = chequearCantidadDeAmigos k xs
-
