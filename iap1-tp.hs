@@ -67,7 +67,7 @@ publicacionesQueLeGustanA (usuarios, relaciones, publicaciones) usr = leGustaLaP
 lesGustanLasMismasPublicaciones :: RedSocial -> Usuario -> Usuario -> Bool
 lesGustanLasMismasPublicaciones = undefined
 
-
+--DESCOMENTAR Y CHEQUEAR QUE ESTO ANDE CUANDO ESTE HECHO publicacionesDe. DESPUES MOVER LA FUNCION AUXILIAR PARA ABAJO
 {-
 -- describir qué hace la función: devuelve True si existe otro usuario en la red social dada que dio like a todas las publicaciones del usuario dado (n° publicaciones > 0). Sino devuelve False.
 tieneUnSeguidorFiel :: RedSocial -> Usuario -> Bool
