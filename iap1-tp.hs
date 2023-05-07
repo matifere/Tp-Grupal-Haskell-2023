@@ -41,7 +41,7 @@ nombresDeUsuarios red = nombresDeUsuariosAuxiliar (usuarios red)
 
 -- describir qué hace la función: devuelve la lista de amigos de un usuario dado de una red social dada.
 amigosDe :: RedSocial -> Usuario -> [Usuario]
-amigosDe red u = amigosDeAuxiliar (relaciones red) u
+amigosDe red u = sinRepetidos (amigosDeAuxiliar (relaciones red) u)
 
 -- describir qué hace la función: devuelve la cantidad de amigos de un usuario dado de una red social dada.
 cantidadDeAmigos :: RedSocial -> Usuario -> Int
@@ -100,9 +100,8 @@ sinRepetidos list   | length list == 0 = []
 
 --Esta función auxiliar toma una lista genérica y un elemento del mismo tipo y devuelve True si el elemento está en la lista
 pertenece :: (Eq t) => [t] -> t -> Bool
-pertenece list y    | length list == 0 = False
-                    | tail list == [] = ((head list) == y)
-                    | head list == y = True
+pertenece [] _ = False
+pertenece list y    | head list == y = True
                     | otherwise = pertenece (tail list) y
 
 --Esta función auxiliar toma una lista de listas genéricas y un elemento del mismo tipo y devuelve True si su el elemento está en todas las listas de la lista de listas
@@ -113,12 +112,12 @@ estaEnTodasLasListas listas y   | length listas == 0 = False
                                 | otherwise = False
 
 
---Esta función auxiliar itera a través de una lista de usuarios y devuelve una lista con sólo los nombres
+--Esta función auxiliar itera sobre de una lista de usuarios y devuelve una lista con sólo los nombres
 nombresDeUsuariosAuxiliar :: [Usuario] -> [String]
 nombresDeUsuariosAuxiliar [] = [] 
 nombresDeUsuariosAuxiliar us = nombreDeUsuario (head us) : nombresDeUsuariosAuxiliar (tail us)
 
---Esta función auxiliar itera a través de una lista de relaciones y devuelve una lista con los usuarios que estén en una relación con el usuario dado
+--Esta función auxiliar itera sobre de una lista de relaciones y devuelve una lista con los usuarios que estén en una relación con el usuario dado
 amigosDeAuxiliar :: [Relacion] -> Usuario -> [Usuario]
 amigosDeAuxiliar [] _ = []
 amigosDeAuxiliar rels u | (fst (head rels) == u) = snd (head rels) : amigosDeAuxiliar (tail rels) u
@@ -132,13 +131,14 @@ masAmigos red (x:y:xs) | length (xs) == 0 && cantidadDeAmigos red x >= cantidadD
                        | cantidadDeAmigos red x >= cantidadDeAmigos red y = masAmigos red (x:xs)
                        | cantidadDeAmigos red x < cantidadDeAmigos red y = masAmigos red (y:xs)
 
+
+--Esta funcion auxiliar itera sobre una lista de publicaciones, y devuelve una lista con solo aquellas que contengan a un cierto usuario
 leGustaLaPublicacion :: [Publicacion] -> Usuario -> [Publicacion]
-leGustaLaPublicacion pubs usr   | tail pubs == [] && (pertenece (likesDePublicacion (head pubs)) usr) = [head pubs]
-                                | tail pubs == [] = []
-                                | pertenece (likesDePublicacion (head pubs)) usr = ((leGustaLaPublicacion (tail pubs)) usr) ++ [head pubs]
+leGustaLaPublicacion [] _ = []
+leGustaLaPublicacion pubs usr   | pertenece (likesDePublicacion (head pubs)) usr = ((leGustaLaPublicacion (tail pubs)) usr) ++ [head pubs]
                                 | otherwise = leGustaLaPublicacion (tail pubs) usr
                      
---Esta funcion itera sobre todos los usuarios de una red chequeando si tienen mas de 1000000 de amigos
+--Esta funcion auxiliar itera sobre todos los usuarios de una red chequeando si tienen mas de 1000000 de amigos
 chequearCantidadDeAmigos :: RedSocial -> [Usuario] -> Bool
 chequearCantidadDeAmigos _ [] = False
 chequearCantidadDeAmigos k (x:xs) | cantidadDeAmigos k x > 1000000 = True
