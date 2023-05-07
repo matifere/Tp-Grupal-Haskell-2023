@@ -67,17 +67,23 @@ publicacionesQueLeGustanA (usuarios, relaciones, publicaciones) usr = leGustaLaP
 lesGustanLasMismasPublicaciones :: RedSocial -> Usuario -> Usuario -> Bool
 lesGustanLasMismasPublicaciones = undefined
 
--- describir qué hace la función: devuelve True si existe otro usuario en la red social dada que dio like a todas las publicaciones del usuario dado (n° publicaciones > 0). Sino devuelve False.
---tieneUnSeguidorFiel :: RedSocial -> Usuario -> Bool
---tieneUnSeguidorFiel red u = tieneUnSeguidorFielAuxiliar (publicacionesDe red u) u --llama a la auxiliar con los meGustaDePublicacion de la primera de (publicacionesDe usuario), con (publicacionesDe usuario)
-
 
 {-
-tieneUnSeguidorFielAuxiliar :: [Usuario] -> [Publicacion] -> Bool
-tieneUnSeguidorFielAuxiliar --se fija si al menos uno de los de la lista usuarios le dio meGusta a todas las publicaciones de la lista y es distinto del creador de la publicacion
+-- describir qué hace la función: devuelve True si existe otro usuario en la red social dada que dio like a todas las publicaciones del usuario dado (n° publicaciones > 0). Sino devuelve False.
+tieneUnSeguidorFiel :: RedSocial -> Usuario -> Bool
+tieneUnSeguidorFiel red u   | publicacionesDe red u == [] = False
+                            | otherwise = tieneUnSeguidorFielAuxiliar (likesDePublicacion (head (publicacionesDe red u))) (likesDePublicaciones (publicacionesDe red u)) u red
+
+--Esta función auxiliar devuelve True si al menos uno de los de la lista de usuarios está en todas las listas de usuarios del segundo parametro
+--(es decir, le dio meGusta a todas las publicaciones de la lista de publiciones), es distinto del creador de la publicacion (tercer param) y pertenece a los usuarios de la red (cuarto param)
+tieneUnSeguidorFielAuxiliar :: [Usuario] -> [[Usuario]] -> Usuario -> RedSocial -> Bool
+tieneUnSeguidorFielAuxiliar usrs likesDePubs creador red    | length usrs == 0 = False
+                                                            | (head usrs /= creador) && (estaEnTodasLasListas likesDePubs (head usrs)) && (pertenece (usuarios red) (head usrs)) = True
+                                                            | otherwise = tieneUnSeguidorFielAuxiliar (tail usrs) likesDePubs creador red
 -}
 
--- describir qué hace la función: Dados una red social y dos usuarios, devuelve True si existe una cadena de amistades que relaciona directa o indirectamente a los dos usuarios. Sino devuelve false (esto está bien interpretado de la especificación?)
+
+-- describir qué hace la función: Dados una red social y dos usuarios, devuelve True si existe una cadena de amistades que relaciona directa o indirectamente a los dos usuarios. Sino devuelve False (esto está bien interpretado de la especificación?)
 existeSecuenciaDeAmigos :: RedSocial -> Usuario -> Usuario -> Bool
 existeSecuenciaDeAmigos red usuario1 usuario2 = existeSecuenciaDeAmigosAuxiliar red  usuario2 [] [usuario1] 
 
@@ -85,6 +91,27 @@ existeSecuenciaDeAmigos red usuario1 usuario2 = existeSecuenciaDeAmigosAuxiliar 
 
 
 -- Funciones Auxiliares
+
+--Esta función auxiliar elimina todas las repeticiones de una lista
+sinRepetidos :: (Eq t) => [t] -> [t]
+sinRepetidos list   | length list == 0 = []
+                    | (pertenece (tail list) (head list)) == True = sinRepetidos (tail list)
+                    | otherwise = [head list] ++ sinRepetidos (tail list)
+
+--Esta función auxiliar toma una lista genérica y un elemento del mismo tipo y devuelve True si el elemento está en la lista
+pertenece :: (Eq t) => [t] -> t -> Bool
+pertenece list y    | length list == 0 = False
+                    | tail list == [] = ((head list) == y)
+                    | head list == y = True
+                    | otherwise = pertenece (tail list) y
+
+--Esta función auxiliar toma una lista de listas genéricas y un elemento del mismo tipo y devuelve True si su el elemento está en todas las listas de la lista de listas
+estaEnTodasLasListas :: (Eq t) => [[t]] -> t -> Bool
+estaEnTodasLasListas listas y   | length listas == 0 = False
+                                | (tail listas) == [] = pertenece (head listas) y
+                                | pertenece (head listas) y = estaEnTodasLasListas (tail listas) y
+                                | otherwise = False
+
 
 --Esta función auxiliar itera a través de una lista de usuarios y devuelve una lista con sólo los nombres
 nombresDeUsuariosAuxiliar :: [Usuario] -> [String]
@@ -111,29 +138,20 @@ leGustaLaPublicacion pubs usr   | tail pubs == [] && (pertenece (likesDePublicac
                                 | pertenece (likesDePublicacion (head pubs)) usr = ((leGustaLaPublicacion (tail pubs)) usr) ++ [head pubs]
                                 | otherwise = leGustaLaPublicacion (tail pubs) usr
                      
+--Esta funcion itera sobre todos los usuarios de una red chequeando si tienen mas de 1000000 de amigos
+chequearCantidadDeAmigos :: RedSocial -> [Usuario] -> Bool
+chequearCantidadDeAmigos _ [] = False
+chequearCantidadDeAmigos k (x:xs) | cantidadDeAmigos k x > 1000000 = True
+                                  | otherwise = chequearCantidadDeAmigos k xs
+
+--Esta función auxiliar devuelve una lista compuesta en todas las listas de likes de una lista de publicaciones
+likesDePublicaciones :: [Publicacion] -> [[Usuario]]
+likesDePublicaciones pubs   | length pubs == 0 = []
+                            | otherwise = [likesDePublicacion (head pubs)] ++ likesDePublicaciones (tail pubs)
+
 --Esta funcion auxiliar recorre todos los posibles caminos para ver si se relacionan dos usuarios
 existeSecuenciaDeAmigosAuxiliar :: RedSocial -> Usuario -> [Usuario] -> [Usuario] -> Bool
 existeSecuenciaDeAmigosAuxiliar red usuario2 usrs_recorridos usrs_por_recorrer  | (usrs_por_recorrer == []) = False  
                                                                                 | (head usrs_por_recorrer) == usuario2 = True
                                                                                 | pertenece usrs_recorridos (head usrs_por_recorrer) = existeSecuenciaDeAmigosAuxiliar red usuario2 usrs_recorridos (tail usrs_por_recorrer) 
                                                                                 | otherwise = existeSecuenciaDeAmigosAuxiliar red usuario2 ((head usrs_por_recorrer):usrs_recorridos) ((amigosDe red (head usrs_por_recorrer))++(tail usrs_por_recorrer)) 
-
-
---Esta función auxiliar elimina todas las repeticiones de una lista
-sinRepetidos :: (Eq t) => [t] -> [t]
-sinRepetidos list   | length list == 0 = []
-                    | (pertenece (tail list) (head list)) == True = sinRepetidos (tail list)
-                    | otherwise = [head list] ++ sinRepetidos (tail list)
-
---Esta función auxiliar toma una lista genérica y un elemento del mismo tipo y devuelve true si el elemento está en la lista
-pertenece :: (Eq t) => [t] -> t -> Bool
-pertenece list y    | length list == 0 = False
-                    | tail list == [] = ((head list) == y)
-                    | head list == y = True
-                    | otherwise = pertenece (tail list) y
-
---Esta funcion reitera sobre todos los usuarios de una red chequeando si tienen mas de 1000000 de amigos
-chequearCantidadDeAmigos :: RedSocial -> [Usuario] -> Bool
-chequearCantidadDeAmigos _ [] = False
-chequearCantidadDeAmigos k (x:xs) | cantidadDeAmigos k x > 1000000 = True
-                                  | otherwise = chequearCantidadDeAmigos k xs
