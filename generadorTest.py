@@ -12,7 +12,7 @@ CantRelacion = ""
 DatoRelacion = ""
 Relaciones = []
    
-with open("Usuarios.txt", "w") as archivo:
+with open("testeoPropio.hs", "w") as archivo:
     # Redirigir la salida estándar al archivo
     sys.stdout = archivo
 
