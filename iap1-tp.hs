@@ -58,9 +58,9 @@ estaRobertoCarlos (usuarios, relaciones, publicaciones) = chequearCantidadDeAmig
 --TESTEAR ESTO
 -- describir qué hace la función: devuelve la lista de publicaciones de un usuario dado de una red social dada
 publicacionesDe :: RedSocial -> Usuario -> [Publicacion]
-publicacionesDe (_, _, pubs) u | length pubs == 0 = []
-                                    | u == (usuarioDePublicacion (head pubs)) = head pubs : (publicacionesDe ([], [], tail pubs) u)
-                                    | otherwise = (publicacionesDe ([], [], tail pubs) u)
+publicacionesDe (_, _, pubs) u  | length pubs == 0 = []
+                                | u == (usuarioDePublicacion (head pubs)) = head pubs : (publicacionesDe ([], [], tail pubs) u)
+                                | otherwise = (publicacionesDe ([], [], tail pubs) u)
 
 -- describir qué hace la función: devuelve la lista de publicaciones de una red social dada que le gustan a un usuario dado
 publicacionesQueLeGustanA :: RedSocial -> Usuario -> [Publicacion]
