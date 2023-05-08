@@ -131,7 +131,7 @@ amigosDeAuxiliar rels u | (fst (head rels) == u) = snd (head rels) : amigosDeAux
 --Esta funcion auxiliar se encarga de comparar que usuario tiene mas amigos dentro de una lista
 masAmigos :: RedSocial -> [Usuario] -> Usuario
 masAmigos red (x:y:xs) | length (xs) == 0 && cantidadDeAmigos red x >= cantidadDeAmigos red y = x
-                       | length (xs) == 0 undefined&& cantidadDeAmigos red x < cantidadDeAmigos red y = y
+                       | length (xs) == 0 && cantidadDeAmigos red x < cantidadDeAmigos red y = y
                        | cantidadDeAmigos red x >= cantidadDeAmigos red y = masAmigos red (x:xs)
                        | cantidadDeAmigos red x < cantidadDeAmigos red y = masAmigos red (y:xs)
 
@@ -164,4 +164,4 @@ existeSecuenciaDeAmigosAuxiliar red usuario2 usrs_recorridos usrs_por_recorrer  
 {-accederAPublicaciones :: [Publicacion] -> Usuario -> [Publicacion]
 accederAPublicaciones [] _ = []
 accederAPublicaciones (x:xs) usr | (fst x) == usr = accederAPublicaciones xs usr ++ [x]
-                                 | otherwise = accederAPublicaciones xs usr-}undefined
+                                 | otherwise = accederAPublicaciones xs usr-}
