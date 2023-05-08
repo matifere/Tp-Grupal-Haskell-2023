@@ -57,7 +57,7 @@ estaRobertoCarlos (usuarios, relaciones, publicaciones) = chequearCantidadDeAmig
 
 -- describir qué hace la función: devuelve la lista de publicaciones de un usuario dado de una red social dada
 publicacionesDe :: RedSocial -> Usuario -> [Publicacion]
-publicacionesDe = undefined
+publicacionesDe red usr = undefined
 
 -- describir qué hace la función: devuelve la lista de publicaciones de una red social dada que le gustan a un usuario dado
 publicacionesQueLeGustanA :: RedSocial -> Usuario -> [Publicacion]
@@ -155,3 +155,9 @@ existeSecuenciaDeAmigosAuxiliar red usuario2 usrs_recorridos usrs_por_recorrer  
                                                                                 | (head usrs_por_recorrer) == usuario2 = True
                                                                                 | pertenece usrs_recorridos (head usrs_por_recorrer) = existeSecuenciaDeAmigosAuxiliar red usuario2 usrs_recorridos (tail usrs_por_recorrer) 
                                                                                 | otherwise = existeSecuenciaDeAmigosAuxiliar red usuario2 ((head usrs_por_recorrer):usrs_recorridos) ((amigosDe red (head usrs_por_recorrer))++(tail usrs_por_recorrer)) 
+
+--Esta funcion auxiliar recorre sobre todas las publicaciones y deja unicamente aquellas que sean del usuario seleccionado
+{-accederAPublicaciones :: [Publicacion] -> Usuario -> [Publicacion]
+accederAPublicaciones [] _ = []
+accederAPublicaciones (x:xs) usr | (fst x) == usr = accederAPublicaciones xs usr ++ [x]
+                                 | otherwise = accederAPublicaciones xs usr-}
