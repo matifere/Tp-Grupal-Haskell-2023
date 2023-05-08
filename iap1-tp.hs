@@ -59,12 +59,14 @@ estaRobertoCarlos (usuarios, relaciones, publicaciones) = chequearCantidadDeAmig
 -- describir qué hace la función: devuelve la lista de publicaciones de un usuario dado de una red social dada
 publicacionesDe :: RedSocial -> Usuario -> [Publicacion]
 publicacionesDe (_, _, pubs) u  | length pubs == 0 = []
-                                | u == (usuarioDePublicacion (head pubs)) = head pubs : (publicacionesDe ([], [], tail pubs) u)
+                                | u == (usuarioDePublicacion (head pubs)) = sinRepetidos (head pubs : (publicacionesDe ([], [], tail pubs) u))
                                 | otherwise = (publicacionesDe ([], [], tail pubs) u)
 
 -- describir qué hace la función: devuelve la lista de publicaciones de una red social dada que le gustan a un usuario dado
 publicacionesQueLeGustanA :: RedSocial -> Usuario -> [Publicacion]
-publicacionesQueLeGustanA (usuarios, relaciones, publicaciones) usr = leGustaLaPublicacion publicaciones usr
+publicacionesQueLeGustanA (_, _, []) _ = []
+publicacionesQueLeGustanA (_, _, pubs) usr  | pertenece (likesDePublicacion (head pubs)) usr = sinRepetidos ((publicacionesQueLeGustanA ([], [], (tail pubs)) usr) ++ [head pubs])
+                                            | otherwise = publicacionesQueLeGustanA ([], [], (tail pubs)) usr
 
 --TESTEAR ESTO
 -- describir qué hace la función: devuelve True si las listas de publicaciones que les gustan a dos usuarios son idénticas (esto está bien interpretado de la especificación?)
@@ -126,13 +128,6 @@ masAmigos red (x:y:xs) | length (xs) == 0 && cantidadDeAmigos red x >= cantidadD
                        | cantidadDeAmigos red x >= cantidadDeAmigos red y = masAmigos red (x:xs)
                        | cantidadDeAmigos red x < cantidadDeAmigos red y = masAmigos red (y:xs)
 
-
---Esta funcion auxiliar itera sobre una lista de publicaciones, y devuelve una lista con solo aquellas que contengan a un cierto usuario
-leGustaLaPublicacion :: [Publicacion] -> Usuario -> [Publicacion]
-leGustaLaPublicacion [] _ = []
-leGustaLaPublicacion pubs usr   | pertenece (likesDePublicacion (head pubs)) usr = ((leGustaLaPublicacion (tail pubs)) usr) ++ [head pubs]
-                                | otherwise = leGustaLaPublicacion (tail pubs) usr
-                     
 --Esta funcion auxiliar itera sobre todos los usuarios de una red chequeando si tienen mas de 1000000 de amigos
 chequearCantidadDeAmigos :: RedSocial -> [Usuario] -> Bool
 chequearCantidadDeAmigos _ [] = False
