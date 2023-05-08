@@ -69,7 +69,7 @@ publicacionesDe (_, _, pubs) u  | length pubs == 0 = []
 -- describir qué hace la función: devuelve la lista de publicaciones de una red social dada que le gustan a un usuario dado
 publicacionesQueLeGustanA :: RedSocial -> Usuario -> [Publicacion]
 publicacionesQueLeGustanA (_, _, []) _ = []
-publicacionesQueLeGustanA (_, _, pubs) usr  | pertenece (likesDePublicacion (head pubs)) usr = sinRepetidos ((head pubs: publicacionesQueLeGustanA ([], [], (tail pubs)) usr))
+publicacionesQueLeGustanA (_, _, pubs) usr  | pertenece (likesDePublicacion (head pubs)) usr = sinRepetidos ((head pubs : publicacionesQueLeGustanA ([], [], (tail pubs)) usr))
                                             | otherwise = publicacionesQueLeGustanA ([], [], (tail pubs)) usr
 
 --TESTEAR ESTO
