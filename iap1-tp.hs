@@ -12,7 +12,7 @@ type Publicacion = (Usuario, String, [Usuario]) -- (usuario que publica, texto p
 type RedSocial = ([Usuario], [Relacion], [Publicacion])
 
 -- Funciones basicas
---comentario de prueba
+
 usuarios :: RedSocial -> [Usuario]
 usuarios (us, _, _) = us
 
@@ -55,17 +55,21 @@ usuarioConMasAmigos (usuarios, relaciones, publicaciones) = masAmigos (usuarios,
 estaRobertoCarlos :: RedSocial -> Bool
 estaRobertoCarlos (usuarios, relaciones, publicaciones) = chequearCantidadDeAmigos (usuarios, relaciones, publicaciones) usuarios
 
+--TESTEAR ESTO
 -- describir qué hace la función: devuelve la lista de publicaciones de un usuario dado de una red social dada
 publicacionesDe :: RedSocial -> Usuario -> [Publicacion]
-publicacionesDe red usr = undefined
+publicacionesDe (_, _, pubs) u | length pubs == 0 = []
+                                    | u == (usuarioDePublicacion (head pubs)) = head pubs : (publicacionesDe ([], [], tail pubs) u)
+                                    | otherwise = (publicacionesDe ([], [], tail pubs) u)
 
 -- describir qué hace la función: devuelve la lista de publicaciones de una red social dada que le gustan a un usuario dado
 publicacionesQueLeGustanA :: RedSocial -> Usuario -> [Publicacion]
 publicacionesQueLeGustanA (usuarios, relaciones, publicaciones) usr = leGustaLaPublicacion publicaciones usr
 
+--TESTEAR ESTO
 -- describir qué hace la función: devuelve True si las listas de publicaciones que les gustan a dos usuarios son idénticas (esto está bien interpretado de la especificación?)
 lesGustanLasMismasPublicaciones :: RedSocial -> Usuario -> Usuario -> Bool
-lesGustanLasMismasPublicaciones = undefined
+lesGustanLasMismasPublicaciones red u1 u2 = (publicacionesQueLeGustanA red u1 == publicacionesQueLeGustanA red u2)
 
 --DESCOMENTAR Y CHEQUEAR QUE ESTO ANDE CUANDO ESTE HECHO publicacionesDe. DESPUES MOVER LA FUNCION AUXILIAR PARA ABAJO
 {-
@@ -127,7 +131,7 @@ amigosDeAuxiliar rels u | (fst (head rels) == u) = snd (head rels) : amigosDeAux
 --Esta funcion auxiliar se encarga de comparar que usuario tiene mas amigos dentro de una lista
 masAmigos :: RedSocial -> [Usuario] -> Usuario
 masAmigos red (x:y:xs) | length (xs) == 0 && cantidadDeAmigos red x >= cantidadDeAmigos red y = x
-                       | length (xs) == 0 && cantidadDeAmigos red x < cantidadDeAmigos red y = y
+                       | length (xs) == 0 undefined&& cantidadDeAmigos red x < cantidadDeAmigos red y = y
                        | cantidadDeAmigos red x >= cantidadDeAmigos red y = masAmigos red (x:xs)
                        | cantidadDeAmigos red x < cantidadDeAmigos red y = masAmigos red (y:xs)
 
@@ -160,4 +164,4 @@ existeSecuenciaDeAmigosAuxiliar red usuario2 usrs_recorridos usrs_por_recorrer  
 {-accederAPublicaciones :: [Publicacion] -> Usuario -> [Publicacion]
 accederAPublicaciones [] _ = []
 accederAPublicaciones (x:xs) usr | (fst x) == usr = accederAPublicaciones xs usr ++ [x]
-                                 | otherwise = accederAPublicaciones xs usr-}
+                                 | otherwise = accederAPublicaciones xs usr-}undefined
