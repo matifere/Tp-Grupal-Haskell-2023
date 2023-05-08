@@ -12,7 +12,7 @@ type Publicacion = (Usuario, String, [Usuario]) -- (usuario que publica, texto p
 type RedSocial = ([Usuario], [Relacion], [Publicacion])
 
 -- Funciones basicas
-
+--comentario de prueba
 usuarios :: RedSocial -> [Usuario]
 usuarios (us, _, _) = us
 
