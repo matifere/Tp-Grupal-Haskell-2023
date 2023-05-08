@@ -93,7 +93,7 @@ existeSecuenciaDeAmigos red usuario1 usuario2 = existeSecuenciaDeAmigosAuxiliar 
 
 -- Funciones Auxiliares
 
---Esta función auxiliar elimina todas las repeticiones de una lista
+--Esta función auxiliar elimina todas las repeticiones de elementos en una lista 
 sinRepetidos :: (Eq t) => [t] -> [t]
 sinRepetidos list   | length list == 0 = []
                     | (pertenece (tail list) (head list)) == True = sinRepetidos (tail list)
@@ -121,13 +121,13 @@ masAmigos red (x:y:xs) | length (xs) == 0 && cantidadDeAmigos red x >= cantidadD
                        | cantidadDeAmigos red x >= cantidadDeAmigos red y = masAmigos red (x:xs)
                        | cantidadDeAmigos red x < cantidadDeAmigos red y = masAmigos red (y:xs)
 
---Esta funcion auxiliar itera sobre todos los usuarios de una red chequeando si tienen mas de 1000000 de amigos
+--Esta funcion auxiliar devuelve true si al menos un usuario de una red tiene mas de 1000000 de amigos
 chequearCantidadDeAmigos :: RedSocial -> [Usuario] -> Bool
 chequearCantidadDeAmigos _ [] = False
 chequearCantidadDeAmigos k (x:xs) | cantidadDeAmigos k x > 1000000 = True
                                   | otherwise = chequearCantidadDeAmigos k xs
 
---Esta función auxiliar devuelve una lista compuesta en todas las listas de likes de una lista de publicaciones
+--Esta función auxiliar devuelve una lista compuesta por todas las listas de likes de una lista de publicaciones
 likesDePublicaciones :: [Publicacion] -> [[Usuario]]
 likesDePublicaciones pubs   | length pubs == 0 = []
                             | otherwise = [likesDePublicacion (head pubs)] ++ likesDePublicaciones (tail pubs)
@@ -140,7 +140,7 @@ existeSecuenciaDeAmigosAuxiliar red usuario2 usrs_recorridos usrs_por_recorrer  
                                                                                 | otherwise = existeSecuenciaDeAmigosAuxiliar red usuario2 ((head usrs_por_recorrer):usrs_recorridos) ((amigosDe red (head usrs_por_recorrer))++(tail usrs_por_recorrer)) 
 
 --Esta función auxiliar devuelve True si al menos uno de los de la lista de usuarios está en todas las listas de usuarios del segundo parametro
---(es decir, le dio meGusta a todas las publicaciones de la lista de publiciones), es distinto del creador de la publicacion (tercer param) y pertenece a los usuarios de la red (cuarto param)
+--(es decir, le dio meGusta a todas las publicaciones de la lista de publiciones), es distinto del creador de la publicacion y pertenece a los usuarios de la red
 tieneUnSeguidorFielAuxiliar :: [Usuario] -> [[Usuario]] -> Usuario -> RedSocial -> Bool
 tieneUnSeguidorFielAuxiliar usrs likesDePubs creador red    | length usrs == 0 = False
                                                             | (head usrs /= creador) && (estaEnTodasLasListas likesDePubs (head usrs)) && (pertenece (usuarios red) (head usrs)) = True
