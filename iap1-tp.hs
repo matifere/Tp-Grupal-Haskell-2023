@@ -37,11 +37,15 @@ likesDePublicacion (_, _, us) = us
 -- Ejercicios
 
 nombresDeUsuarios :: RedSocial -> [String]
-nombresDeUsuarios red = nombresDeUsuariosAuxiliar (usuarios red)
+nombresDeUsuarios ([], _, _) = []
+nombresDeUsuarios (us, _, _) = sinRepetidos (nombreDeUsuario (head us) : nombresDeUsuarios ((tail us), [], []))
 
 -- describir qué hace la función: devuelve la lista de amigos de un usuario dado de una red social dada.
 amigosDe :: RedSocial -> Usuario -> [Usuario]
-amigosDe red u = sinRepetidos (amigosDeAuxiliar (relaciones red) u)
+amigosDe (_, [], _) _ = []
+amigosDe (_, rels, _) u | (fst (head rels) == u) = sinRepetidos (snd (head rels) : amigosDe ([], (tail rels), []) u)
+                        | (snd (head rels) == u) = sinRepetidos (fst (head rels) : amigosDe ([], (tail rels), []) u)
+                        | otherwise = amigosDe ([], (tail rels), []) u
 
 -- describir qué hace la función: devuelve la cantidad de amigos de un usuario dado de una red social dada.
 cantidadDeAmigos :: RedSocial -> Usuario -> Int
@@ -109,17 +113,6 @@ estaEnTodasLasListas listas y   | length listas == 0 = False
                                 | otherwise = False
 
 
---Esta función auxiliar itera sobre de una lista de usuarios y devuelve una lista con sólo los nombres
-nombresDeUsuariosAuxiliar :: [Usuario] -> [String]
-nombresDeUsuariosAuxiliar [] = [] 
-nombresDeUsuariosAuxiliar us = nombreDeUsuario (head us) : nombresDeUsuariosAuxiliar (tail us)
-
---Esta función auxiliar itera sobre de una lista de relaciones y devuelve una lista con los usuarios que estén en una relación con el usuario dado
-amigosDeAuxiliar :: [Relacion] -> Usuario -> [Usuario]
-amigosDeAuxiliar [] _ = []
-amigosDeAuxiliar rels u | (fst (head rels) == u) = snd (head rels) : amigosDeAuxiliar (tail rels) u
-                        | (snd (head rels) == u) = fst (head rels) : amigosDeAuxiliar (tail rels) u
-                        | otherwise = amigosDeAuxiliar (tail rels) u
 
 --Esta funcion auxiliar se encarga de comparar que usuario tiene mas amigos dentro de una lista
 masAmigos :: RedSocial -> [Usuario] -> Usuario
