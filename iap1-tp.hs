@@ -71,20 +71,11 @@ publicacionesQueLeGustanA (usuarios, relaciones, publicaciones) usr = leGustaLaP
 lesGustanLasMismasPublicaciones :: RedSocial -> Usuario -> Usuario -> Bool
 lesGustanLasMismasPublicaciones red u1 u2 = (publicacionesQueLeGustanA red u1 == publicacionesQueLeGustanA red u2)
 
---DESCOMENTAR Y CHEQUEAR QUE ESTO ANDE CUANDO ESTE HECHO publicacionesDe. DESPUES MOVER LA FUNCION AUXILIAR PARA ABAJO
-{-
+
 -- describir qué hace la función: devuelve True si existe otro usuario en la red social dada que dio like a todas las publicaciones del usuario dado (n° publicaciones > 0). Sino devuelve False.
 tieneUnSeguidorFiel :: RedSocial -> Usuario -> Bool
 tieneUnSeguidorFiel red u   | publicacionesDe red u == [] = False
                             | otherwise = tieneUnSeguidorFielAuxiliar (likesDePublicacion (head (publicacionesDe red u))) (likesDePublicaciones (publicacionesDe red u)) u red
-
---Esta función auxiliar devuelve True si al menos uno de los de la lista de usuarios está en todas las listas de usuarios del segundo parametro
---(es decir, le dio meGusta a todas las publicaciones de la lista de publiciones), es distinto del creador de la publicacion (tercer param) y pertenece a los usuarios de la red (cuarto param)
-tieneUnSeguidorFielAuxiliar :: [Usuario] -> [[Usuario]] -> Usuario -> RedSocial -> Bool
-tieneUnSeguidorFielAuxiliar usrs likesDePubs creador red    | length usrs == 0 = False
-                                                            | (head usrs /= creador) && (estaEnTodasLasListas likesDePubs (head usrs)) && (pertenece (usuarios red) (head usrs)) = True
-                                                            | otherwise = tieneUnSeguidorFielAuxiliar (tail usrs) likesDePubs creador red
--}
 
 
 -- describir qué hace la función: Dados una red social y dos usuarios, devuelve True si existe una cadena de amistades que relaciona directa o indirectamente a los dos usuarios. Sino devuelve False (esto está bien interpretado de la especificación?)
@@ -160,8 +151,9 @@ existeSecuenciaDeAmigosAuxiliar red usuario2 usrs_recorridos usrs_por_recorrer  
                                                                                 | pertenece usrs_recorridos (head usrs_por_recorrer) = existeSecuenciaDeAmigosAuxiliar red usuario2 usrs_recorridos (tail usrs_por_recorrer) 
                                                                                 | otherwise = existeSecuenciaDeAmigosAuxiliar red usuario2 ((head usrs_por_recorrer):usrs_recorridos) ((amigosDe red (head usrs_por_recorrer))++(tail usrs_por_recorrer)) 
 
---Esta funcion auxiliar recorre sobre todas las publicaciones y deja unicamente aquellas que sean del usuario seleccionado
-{-accederAPublicaciones :: [Publicacion] -> Usuario -> [Publicacion]
-accederAPublicaciones [] _ = []
-accederAPublicaciones (x:xs) usr | (fst x) == usr = accederAPublicaciones xs usr ++ [x]
-                                 | otherwise = accederAPublicaciones xs usr-}
+--Esta función auxiliar devuelve True si al menos uno de los de la lista de usuarios está en todas las listas de usuarios del segundo parametro
+--(es decir, le dio meGusta a todas las publicaciones de la lista de publiciones), es distinto del creador de la publicacion (tercer param) y pertenece a los usuarios de la red (cuarto param)
+tieneUnSeguidorFielAuxiliar :: [Usuario] -> [[Usuario]] -> Usuario -> RedSocial -> Bool
+tieneUnSeguidorFielAuxiliar usrs likesDePubs creador red    | length usrs == 0 = False
+                                                            | (head usrs /= creador) && (estaEnTodasLasListas likesDePubs (head usrs)) && (pertenece (usuarios red) (head usrs)) = True
+                                                            | otherwise = tieneUnSeguidorFielAuxiliar (tail usrs) likesDePubs creador red
