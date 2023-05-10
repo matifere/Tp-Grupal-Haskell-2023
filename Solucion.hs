@@ -41,14 +41,14 @@ nombresDeUsuarios :: RedSocial -> [String]
 nombresDeUsuarios ([], _, _) = []
 nombresDeUsuarios (us, _, _) = sinRepetidos (nombreDeUsuario (head us) : nombresDeUsuarios ((tail us), [], []))
 
--- describir qué hace la función: devuelve la lista de amigos de un usuario dado de una red social dada.
+-- describir qué hace la función: devuelve la lista de amigos de un usuario de una red social.
 amigosDe :: RedSocial -> Usuario -> [Usuario]
 amigosDe (_, [], _) _ = []
 amigosDe (_, rels, _) u | (fst (head rels) == u) = sinRepetidos (snd (head rels) : amigosDe ([], (tail rels), []) u)
                         | (snd (head rels) == u) = sinRepetidos (fst (head rels) : amigosDe ([], (tail rels), []) u)
                         | otherwise = amigosDe ([], (tail rels), []) u
 
--- describir qué hace la función: devuelve la cantidad de amigos de un usuario dado de una red social dada.
+-- describir qué hace la función: devuelve la cantidad de amigos de un usuario de una red social.
 cantidadDeAmigos :: RedSocial -> Usuario -> Int
 cantidadDeAmigos red u = length (amigosDe red u)
 
@@ -56,36 +56,36 @@ cantidadDeAmigos red u = length (amigosDe red u)
 usuarioConMasAmigos :: RedSocial -> Usuario
 usuarioConMasAmigos (usuarios, relaciones, publicaciones) = masAmigos (usuarios, relaciones, publicaciones) usuarios
 
--- describir qué hace la función: devuelve True si la red social dada tiene algún usuario con más (mayor estricto) de 1000000 amigos. Sino devuelve False.
+-- describir qué hace la función: devuelve True si la red social dada tiene algún usuario con más (mayor estricto) de 10 amigos.
 estaRobertoCarlos :: RedSocial -> Bool
-estaRobertoCarlos red = (cantidadDeAmigos red (usuarioConMasAmigos red) > 1000000)
+estaRobertoCarlos red = (cantidadDeAmigos red (usuarioConMasAmigos red) > 10)
 
 --TESTEAR ESTO
--- describir qué hace la función: devuelve la lista de publicaciones de un usuario dado de una red social dada
+-- describir qué hace la función: devuelve la lista de publicaciones de un usuario de una red social.
 publicacionesDe :: RedSocial -> Usuario -> [Publicacion]
 publicacionesDe (_, _, pubs) u  | length pubs == 0 = []
                                 | u == (usuarioDePublicacion (head pubs)) = sinRepetidos (head pubs : (publicacionesDe ([], [], tail pubs) u))
                                 | otherwise = (publicacionesDe ([], [], tail pubs) u)
 
--- describir qué hace la función: devuelve la lista de publicaciones de una red social dada que le gustan a un usuario dado
+-- describir qué hace la función: devuelve la lista de publicaciones de una red social que le gustan a un usuario.
 publicacionesQueLeGustanA :: RedSocial -> Usuario -> [Publicacion]
 publicacionesQueLeGustanA (_, _, []) _ = []
 publicacionesQueLeGustanA (_, _, pubs) usr  | pertenece (likesDePublicacion (head pubs)) usr = sinRepetidos ((head pubs : publicacionesQueLeGustanA ([], [], (tail pubs)) usr))
                                             | otherwise = publicacionesQueLeGustanA ([], [], (tail pubs)) usr
 
 --TESTEAR ESTO
--- describir qué hace la función: devuelve True si las listas de publicaciones que les gustan a dos usuarios son idénticas (esto está bien interpretado de la especificación?)
+-- describir qué hace la función: devuelve True si las listas de publicaciones que les gustan a dos usuarios son idénticas
 lesGustanLasMismasPublicaciones :: RedSocial -> Usuario -> Usuario -> Bool
 lesGustanLasMismasPublicaciones red u1 u2 = (publicacionesQueLeGustanA red u1 == publicacionesQueLeGustanA red u2)
 
 
--- describir qué hace la función: devuelve True si existe otro usuario en la red social dada que dio like a todas las publicaciones del usuario dado (n° publicaciones > 0). Sino devuelve False.
+-- describir qué hace la función: devuelve True si existe otro usuario en la red social que dio like a todas las publicaciones del usuario (n° publicaciones > 0).
 tieneUnSeguidorFiel :: RedSocial -> Usuario -> Bool
 tieneUnSeguidorFiel red u   | publicacionesDe red u == [] = False
                             | otherwise = tieneUnSeguidorFielAuxiliar (likesDePublicacion (head (publicacionesDe red u))) (likesDePublicaciones (publicacionesDe red u)) u red
 
 
--- describir qué hace la función: Dados una red social y dos usuarios, devuelve True si existe una cadena de amistades que relaciona directa o indirectamente a los dos usuarios. Sino devuelve False (esto está bien interpretado de la especificación?)
+-- describir qué hace la función: Dados una red social y dos usuarios, devuelve True si existe una cadena de amistades que relaciona directa o indirectamente a los dos usuarios.
 existeSecuenciaDeAmigos :: RedSocial -> Usuario -> Usuario -> Bool
 existeSecuenciaDeAmigos red usuario1 usuario2 = existeSecuenciaDeAmigosAuxiliar red  usuario2 [] [usuario1] 
 
@@ -135,8 +135,8 @@ existeSecuenciaDeAmigosAuxiliar red usuario2 usrs_recorridos usrs_por_recorrer  
                                                                                 | pertenece usrs_recorridos (head usrs_por_recorrer) = existeSecuenciaDeAmigosAuxiliar red usuario2 usrs_recorridos (tail usrs_por_recorrer) 
                                                                                 | otherwise = existeSecuenciaDeAmigosAuxiliar red usuario2 ((head usrs_por_recorrer):usrs_recorridos) ((amigosDe red (head usrs_por_recorrer))++(tail usrs_por_recorrer)) 
 
---Esta función auxiliar devuelve True si al menos uno de los de la lista de usuarios está en todas las listas de usuarios del segundo parametro
---(es decir, le dio meGusta a todas las publicaciones de la lista de publiciones), es distinto del creador de la publicacion y pertenece a los usuarios de la red
+--Esta función auxiliar devuelve True si al menos uno de los de la lista de usuarios está en todas las listas de likes usuarios del segundo parametro,
+--es distinto del creador de la publicacion y pertenece a los usuarios de la red
 tieneUnSeguidorFielAuxiliar :: [Usuario] -> [[Usuario]] -> Usuario -> RedSocial -> Bool
 tieneUnSeguidorFielAuxiliar usrs likesDePubs creador red    | length usrs == 0 = False
                                                             | (head usrs /= creador) && (estaEnTodasLasListas likesDePubs (head usrs)) && (pertenece (usuarios red) (head usrs)) = True
