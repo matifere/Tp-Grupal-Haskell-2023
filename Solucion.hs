@@ -5,7 +5,7 @@
 -- Integrante 2: Matías Ferechian, matifere@gmail.com, 693/23
 -- Integrante 3: Thiago Ghianni, ghiannithiago@gmail.com, 1182/82
 -- Integrante 4: Fabrizio Serraiocco, fabrizioserraiocco@gmail.com, 677/23
-module Iap1Tp where
+module Solucion where
 
 type Usuario = (Integer, String) -- (id, nombre)
 type Relacion = (Usuario, Usuario) -- usuarios que se relacionan

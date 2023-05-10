@@ -1,7 +1,7 @@
 module TestCatedra where
 
 import Test.HUnit
-import Iap1Tp
+import Solucion
 
 main = runTestTT tests
 
