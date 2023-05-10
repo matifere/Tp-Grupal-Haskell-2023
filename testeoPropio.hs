@@ -3,6 +3,17 @@ import Test.HUnit
 import Solucion
 
 main = runTestTT testsMain
+ej1 = runTestTT testsEjercicio1
+ej2 = runTestTT testsEjercicio2
+ej3 = runTestTT testsEjercicio3
+ej4 = runTestTT testsEjercicio4
+ej5 = runTestTT testsEjercicio5
+ej6 = runTestTT testsEjercicio6
+ej7 = runTestTT testsEjercicio7
+ej8 = runTestTT testsEjercicio8
+ej9 = runTestTT testsEjercicio9
+ej10 = runTestTT testsEjercicio10
+
 
 testsMain = test [
 
