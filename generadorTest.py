@@ -40,13 +40,13 @@ with open("testeoPropio.hs", "w") as archivo:
     print("relaciones = [", ", ".join(Relaciones), "]", sep="")
     print(" ")
     
-    print("usuarios = [", ", ".join(Usuarios), "]", sep="")
+    print("listaUsuarios = [", ", ".join(Usuarios), "]", sep="")
     print(" ")
     
     print("publicaciones = []")
     print(" ")
     
-    print("red = (usuarios, relaciones, publicaciones)")
+    print("redRobertoCarlos = (listaUsuarios, relaciones, publicaciones)")
     
 
     # Restaurar la salida estándar a la consola
