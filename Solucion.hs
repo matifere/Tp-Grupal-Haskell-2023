@@ -5,7 +5,7 @@
 -- Integrante 2: Matías Ferechian, matifere@gmail.com, 693/23
 -- Integrante 3: Thiago Ghianni, ghiannithiago@gmail.com, 1182/82
 -- Integrante 4: Fabrizio Serraiocco, fabrizioserraiocco@gmail.com, 677/23
-module Iap1Tp where 
+module Iap1Tp where
 
 type Usuario = (Integer, String) -- (id, nombre)
 type Relacion = (Usuario, Usuario) -- usuarios que se relacionan
@@ -140,4 +140,4 @@ existeSecuenciaDeAmigosAuxiliar red usuario2 usrs_recorridos usrs_por_recorrer  
 tieneUnSeguidorFielAuxiliar :: [Usuario] -> [[Usuario]] -> Usuario -> RedSocial -> Bool
 tieneUnSeguidorFielAuxiliar usrs likesDePubs creador red    | length usrs == 0 = False
                                                             | (head usrs /= creador) && (estaEnTodasLasListas likesDePubs (head usrs)) && (pertenece (usuarios red) (head usrs)) = True
-                                                            | otherwise = tieneUnSeguidorFielAuxiliar (tail usrs) likesDePubs creador red
+                                                            | otherwise = tieneUnSeguidorFielAuxiliar (tail usrs) likesDePubs creador red 
