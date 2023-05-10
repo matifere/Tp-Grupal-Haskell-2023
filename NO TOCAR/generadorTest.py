@@ -18,7 +18,11 @@ with open("testeoPropio.hs", "w") as archivo:
 
     # Definir la lista que se va a imprimir
     nombres = ['"Sophia"', '"Jackson"', '"Olivia"', '"Liam"', '"Emma"', '"Noah"', '"Ava"', '"Aiden"', '"Isabella"', '"Caden"', '"Mia"', '"Grayson"', '"Riley"', '"Lucas"', '"Avery"', '"Mason"', '"Ella"', '"Logan"', '"Lily"', '"Ethan"', '"Hannah"', '"Oliver"', '"Chloe"', '"Jacob"', '"Evelyn"', '"Levi"', '"Aubrey"', '"William"', '"Addison"', '"James"', '"Natalie"', '"Alexander"', '"Sofia"', '"Michael"', '"Harper"', '"Benjamin"', '"Aaliyah"', '"Elijah"', '"Arianna"', '"Daniel"', '"Elizabeth"', '"Matthew"', '"Victoria"', '"Cameron"', '"Madelyn"', '"Luna"', '"Caleb"', '"Grace"', '"Dylan"', '"Aurora"', '"Luke"', '"Audrey"', '"Miles"', '"Bella"', '"Gabriel"', '"Brooklyn"', '"Anthony"', '"Zoe"', '"Jaxon"', '"Scarlett"', '"Ezra"', '"Claire"', '"Owen"', '"Skylar"', '"Isaiah"', '"Lila"', '"Jayden"', '"Leah"', '"Sebastian"', '"Gabriella"', '"Christian"', '"Naomi"', '"Jeremiah"', '"Alice"', '"Julian"', '"Adeline"', '"Hunter"', '"Aria"', '"Landon"', '"Eleanor"', '"Adrian"', '"Violet"', '"Thomas"', '"Caroline"', '"Eli"', '"Stella"', '"Nathan"', '"Savannah"', '"Isabelle"', '"Mateo"', '"Genesis"', '"Max"', '"Penelope"', '"Josiah"', '"Hazel"', '"Nolan"', '"Ellie"']
-
+    
+    print ("module TesteoPropio where")
+    print ("import Test.HUnit")
+    print ("import Iap1Tp")    
+    print (" ")
     # Imprimir cada elemento de la lista en una línea separada
     for i in range(0, cantidadDeUsuarios + 1, 1):
         CantUsuario = "usuario" + str(i)

@@ -10,7 +10,7 @@ Funciones implementadas por:
     Mati:
         usuarioConMasAmigos
         estaRobertoCarlos
-        publicacionesDe -- sh
+        publicacionesDe
 
 
 ---PARA EL 9--
