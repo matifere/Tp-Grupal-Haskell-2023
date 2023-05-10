@@ -32,8 +32,8 @@ testsMain = test [
 
 testsEjercicio1 = test [
 
-    " nombresDeUsuarios 1" ~: (nombresDeUsuarios redA) ~?= ["Juan","Natalia","Pedro","Mariela"],
-    " nombresDeUsuarios 2" ~: (nombresDeUsuarios redB) ~?= ["Juan","Pedro", "Natalia"]
+    " nombresDeUsuarios sin repeticiones" ~: (nombresDeUsuarios redA) ~?= ["Juan","Natalia","Pedro","Mariela"],
+    " nombresDeUsuarios nombres repetidos" ~: (nombresDeUsuarios redB) ~?= ["Juan","Pedro", "Natalia"]
 
     ]
 
