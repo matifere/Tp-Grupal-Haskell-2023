@@ -95,7 +95,9 @@ testsEjercicio8 = test [
 
 testsEjercicio9 = test [
 
-    " tieneUnSeguidorFiel 1" ~: (tieneUnSeguidorFiel redA usuario1) ~?= True
+    " tieneUnSeguidorFiel con seguidor fiel" ~: (tieneUnSeguidorFiel redA usuario1) ~?= True,
+    " tieneUnSeguidorFiel sin seguidor fiel" ~: (tieneUnSeguidorFiel (usuariosA, [], publicacion1_3 : publicacionesA) usuario1) ~?= False,
+    " tieneUnSeguidorFiel sin publicaciones" ~: (tieneUnSeguidorFiel (usuariosA, [], []) usuario1) ~?= False
 
     ]
 
