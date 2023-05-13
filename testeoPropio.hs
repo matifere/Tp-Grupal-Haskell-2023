@@ -54,7 +54,8 @@ testsEjercicio3 = test [
 
 testsEjercicio4 = test [
 
-    " usuarioConMasAmigos" ~: expectAny (usuarioConMasAmigos redA) [usuario2, usuario4]
+    " usuarioConMasAmigos red 'normal'" ~: expectAny (usuarioConMasAmigos redA) [usuario2, usuario4],
+    " usuarioConMasAmigos un solo usuario" ~: (usuarioConMasAmigos ([usuario1], [], [])) ~?= usuario1
 
 
     ]

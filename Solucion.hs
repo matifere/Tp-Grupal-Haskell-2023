@@ -54,7 +54,8 @@ cantidadDeAmigos red u = length (amigosDe red u)
 
 -- describir qué hace la función: devuelve al usuario con más amigos de una red social dada.
 usuarioConMasAmigos :: RedSocial -> Usuario
-usuarioConMasAmigos red = masAmigos red (usuarios red)
+usuarioConMasAmigos red | length (usuarios red) == 1 = head (usuarios red)
+                        | otherwise = masAmigos red (usuarios red)
 
 -- describir qué hace la función: devuelve True si la red social dada tiene algún usuario con más (mayor estricto) de 10 amigos.
 estaRobertoCarlos :: RedSocial -> Bool
