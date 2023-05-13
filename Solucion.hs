@@ -88,7 +88,8 @@ tieneUnSeguidorFiel red u   | publicacionesDe red u == [] = False
 
 -- describir qué hace la función: Dados una red social y dos usuarios, devuelve True si existe una cadena de amistades que relaciona directa o indirectamente a los dos usuarios.
 existeSecuenciaDeAmigos :: RedSocial -> Usuario -> Usuario -> Bool
-existeSecuenciaDeAmigos red usuario1 usuario2 = existeSecuenciaDeAmigosAuxiliar red  usuario2 [] [usuario1] 
+existeSecuenciaDeAmigos red usuario1 usuario2   | usuario1 == usuario2 = False
+                                                | otherwise = existeSecuenciaDeAmigosAuxiliar red  usuario2 [] [usuario1] 
 
 
 

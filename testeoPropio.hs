@@ -103,7 +103,10 @@ testsEjercicio9 = test [
 
 testsEjercicio10 = test [
 
-    " existeSecuenciaDeAmigos 1" ~: (existeSecuenciaDeAmigos redA usuario1 usuario3) ~?= True
+    " existeSecuenciaDeAmigos relacion indirecta" ~: (existeSecuenciaDeAmigos redA usuario1 usuario3) ~?= True,
+    " existeSecuenciaDeAmigos relacion directa" ~: (existeSecuenciaDeAmigos redA usuario2 usuario3) ~?= True,
+    " existeSecuenciaDeAmigos sin relacion" ~: (existeSecuenciaDeAmigos redB usuario1 usuario5) ~?= False,
+    " existeSecuenciaDeAmigos con uno mismo" ~: (existeSecuenciaDeAmigos redA usuario1 usuario1) ~?= False
 
     ]
 
