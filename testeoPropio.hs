@@ -33,33 +33,36 @@ testsMain = test [
 testsEjercicio1 = test [
 
     " nombresDeUsuarios sin repeticiones" ~: (nombresDeUsuarios redA) ~?= ["Juan","Natalia","Pedro","Mariela"],
-    " nombresDeUsuarios nombres repetidos" ~: (nombresDeUsuarios redB) ~?= ["Juan","Pedro", "Natalia"]
+    " nombresDeUsuarios nombres repetidos" ~: (nombresDeUsuarios redB) ~?= ["Juan","Pedro", "Natalia"],
+    " nombresDeUsuarios red vacia" ~: (nombresDeUsuarios redVacia) ~?= []
 
     ]
 
 testsEjercicio2 = test [
 
-    " amigosDe 1" ~: (amigosDe redA usuario1) ~?= [usuario2, usuario4]
+    " amigosDe con amigos" ~: (amigosDe redA usuario1) ~?= [usuario2, usuario4],
+    " amigosDe sin amigos" ~: (amigosDe redB usuario5) ~?= [] 
 
     ]
 
 testsEjercicio3 = test [
 
-    " cantidadDeAmigos 1" ~: (cantidadDeAmigos redA usuario1) ~?= 2
+    " cantidadDeAmigos con amigos" ~: (cantidadDeAmigos redA usuario1) ~?= 2,
+    " cantidadDeAmigos sin amigos" ~: (cantidadDeAmigos redB usuario5) ~?= 0
 
     ]
 
 testsEjercicio4 = test [
 
-    " usuarioConMasAmigos 1" ~: expectAny (usuarioConMasAmigos redA) [usuario2, usuario4]
+    " usuarioConMasAmigos" ~: expectAny (usuarioConMasAmigos redA) [usuario2, usuario4]
 
 
     ]
 
 testsEjercicio5 = test [
 
-    " estaRobertoCarlos 1" ~: (estaRobertoCarlos redA) ~?= False,
-    " estaRobertoCarlos 2" ~: (estaRobertoCarlos redCarlos) ~?= True
+    " estaRobertoCarlos sin Roberto Carlos" ~: (estaRobertoCarlos redA) ~?= False,
+    " estaRobertoCarlos con Roberto Carlos" ~: (estaRobertoCarlos redCarlos) ~?= True
 
     ]
 
