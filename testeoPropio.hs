@@ -69,7 +69,9 @@ testsEjercicio5 = test [
 
 testsEjercicio6 = test [
 
-    " publicacionesDe 1" ~: (publicacionesDe redA usuario2) ~?= [publicacion2_1, publicacion2_2]
+    " publicacionesDe con publicaciones" ~: (publicacionesDe redA usuario2) ~?= [publicacion2_1, publicacion2_2],
+    " publicacionesDe con publicaciones y repetidas" ~: (publicacionesDe (usuariosA, relacionesA, publicacionesA ++ [publicacion2_1, publicacion2_1, publicacion2_2]) usuario2) ~?= [publicacion2_1, publicacion2_2],
+    " publicacionesDe sin publicaciones" ~: (publicacionesDe redB usuario5) ~?= []
 
 
     ]
@@ -166,7 +168,6 @@ publicacionesB = [publicacion1_3, publicacion1_4, publicacion1_5, publicacion3_1
 redB = (usuariosB, relacionesB, publicacionesB)
 
 redVacia = ([], [], [])
-redSoloUsuarios = (usuariosA, [], [])
 
 usuariosCarlos = [usuario1, usuario2, usuario3, usuario4, usuario5, usuario6, usuario7, usuario8, usuario9, usuario10, usuario11, usuario12]
 relacionesCarlos = [relacion1_2, relacion2_3, relacion11_1, relacion11_2, relacion11_3, relacion11_4, relacion11_5, relacion11_6, relacion11_7, relacion11_8, relacion11_9, relacion11_10, relacion11_12]
