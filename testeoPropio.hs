@@ -70,7 +70,7 @@ testsEjercicio5 = test [
 testsEjercicio6 = test [
 
     " publicacionesDe con publicaciones" ~: (publicacionesDe redA usuario2) ~?= [publicacion2_1, publicacion2_2],
-    " publicacionesDe con publicaciones y repetidas" ~: (publicacionesDe (usuariosA, relacionesA, publicacionesA ++ [publicacion2_1, publicacion2_1, publicacion2_2]) usuario2) ~?= [publicacion2_1, publicacion2_2],
+    " publicacionesDe con publicaciones y repetidas" ~: (publicacionesDe (usuariosA, [], publicacionesA ++ [publicacion2_1, publicacion2_1, publicacion2_2]) usuario2) ~?= [publicacion2_1, publicacion2_2],
     " publicacionesDe sin publicaciones" ~: (publicacionesDe redB usuario5) ~?= []
 
 
@@ -78,14 +78,17 @@ testsEjercicio6 = test [
 
 testsEjercicio7 = test [
 
-    " publicacionesQueLeGustanA 1" ~: (publicacionesQueLeGustanA redA usuario1) ~?= [publicacion2_2, publicacion4_1]
-
+    " publicacionesQueLeGustanA con likes" ~: (publicacionesQueLeGustanA redA usuario1) ~?= [publicacion2_2, publicacion4_1],
+    " publicacionesQueLeGustanA sin likes" ~: (publicacionesQueLeGustanA (usuariosB, [], [publicacion3_1, publicacion3_3]) usuario1) ~?= [],
+    " publicacionesQueLeGustanA sin publicaciones" ~: (publicacionesQueLeGustanA (usuariosB, [], []) usuario1) ~?= []
 
     ]
 
 testsEjercicio8 = test [
 
-    " lesGustanLasMismasPublicaciones 2" ~: (lesGustanLasMismasPublicaciones redB usuario1 usuario3) ~?= True
+    " lesGustanLasMismasPublicaciones sin likes" ~: (lesGustanLasMismasPublicaciones redB usuario1 usuario3) ~?= True,
+    " lesGustanLasMismasPublicaciones con likes, distintas" ~: (lesGustanLasMismasPublicaciones redB usuario2 usuario5) ~?= False,
+    " lesGustanLasMismasPublicaciones con likes, iguales" ~: (lesGustanLasMismasPublicaciones (usuariosB, [], [publicacion1_3, publicacion3_3]) usuario2 usuario5) ~?= True
 
 
     ]
