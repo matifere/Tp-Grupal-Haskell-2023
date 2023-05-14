@@ -55,7 +55,7 @@ cantidadDeAmigos red u = length (amigosDe red u)
 -- describir qué hace la función: devuelve al usuario con más amigos de una red social dada.
 usuarioConMasAmigos :: RedSocial -> Usuario
 usuarioConMasAmigos red | length (usuarios red) == 1 = head (usuarios red)
-                        | otherwise = masAmigos red (usuarios red)
+                        | otherwise = quienTieneMasAmigos red (usuarios red)
 
 -- describir qué hace la función: devuelve True si la red social dada tiene algún usuario con más (mayor estricto) de 10 amigos.
 estaRobertoCarlos :: RedSocial -> Bool
@@ -83,13 +83,13 @@ lesGustanLasMismasPublicaciones red u1 u2 = (publicacionesQueLeGustanA red u1 ==
 -- describir qué hace la función: devuelve True si existe otro usuario en la red social que dio like a todas las publicaciones del usuario (n° publicaciones > 0).
 tieneUnSeguidorFiel :: RedSocial -> Usuario -> Bool
 tieneUnSeguidorFiel red u   | publicacionesDe red u == [] = False
-                            | otherwise = tieneUnSeguidorFielAuxiliar (likesDePublicacion (head (publicacionesDe red u))) (likesDePublicaciones (publicacionesDe red u)) u red
+                            | otherwise = hayUnSeguidorFielEnLosLikes (likesDePublicacion (head (publicacionesDe red u))) (likesDePublicaciones (publicacionesDe red u)) u red
 
 
 -- describir qué hace la función: Dados una red social y dos usuarios, devuelve True si existe una cadena de amistades que relaciona directa o indirectamente a los dos usuarios.
 existeSecuenciaDeAmigos :: RedSocial -> Usuario -> Usuario -> Bool
 existeSecuenciaDeAmigos red usuario1 usuario2   | usuario1 == usuario2 = False
-                                                | otherwise = existeSecuenciaDeAmigosAuxiliar red  usuario2 [] [usuario1] 
+                                                | otherwise = hayCadenaDeAmistad red usuario2 [] [usuario1] 
 
 
 
@@ -118,28 +118,27 @@ estaEnTodasLasListas listas y   | length listas == 0 = False
 
 
 --Esta funcion auxiliar se encarga de comparar que usuario tiene mas amigos dentro de una lista
-masAmigos :: RedSocial -> [Usuario] -> Usuario
-masAmigos red (x:y:xs) | length (xs) == 0 && cantidadDeAmigos red x >= cantidadDeAmigos red y = x
-                       | length (xs) == 0 && cantidadDeAmigos red x < cantidadDeAmigos red y = y
-                       | cantidadDeAmigos red x >= cantidadDeAmigos red y = masAmigos red (x:xs)
-                       | cantidadDeAmigos red x < cantidadDeAmigos red y = masAmigos red (y:xs)
-
+quienTieneMasAmigos :: RedSocial -> [Usuario] -> Usuario
+quienTieneMasAmigos red (x:y:xs)    | length (xs) == 0 && cantidadDeAmigos red x >= cantidadDeAmigos red y = x
+                                    | length (xs) == 0 && cantidadDeAmigos red x < cantidadDeAmigos red y = y
+                                    | cantidadDeAmigos red x >= cantidadDeAmigos red y = quienTieneMasAmigos red (x:xs)
+                                    | cantidadDeAmigos red x < cantidadDeAmigos red y = quienTieneMasAmigos red (y:xs)
 
 --Esta función auxiliar devuelve una lista compuesta por todas las listas de likes de una lista de publicaciones
 likesDePublicaciones :: [Publicacion] -> [[Usuario]]
 likesDePublicaciones pubs   | length pubs == 0 = []
-                            | otherwise = [likesDePublicacion (head pubs)] ++ likesDePublicaciones (tail pubs)
-
---Esta funcion auxiliar recorre todos los posibles caminos para ver si se relacionan dos usuarios
-existeSecuenciaDeAmigosAuxiliar :: RedSocial -> Usuario -> [Usuario] -> [Usuario] -> Bool
-existeSecuenciaDeAmigosAuxiliar red usuario2 usrs_recorridos usrs_por_recorrer  | (usrs_por_recorrer == []) = False  
-                                                                                | (head usrs_por_recorrer) == usuario2 = True
-                                                                                | pertenece usrs_recorridos (head usrs_por_recorrer) = existeSecuenciaDeAmigosAuxiliar red usuario2 usrs_recorridos (tail usrs_por_recorrer) 
-                                                                                | otherwise = existeSecuenciaDeAmigosAuxiliar red usuario2 ((head usrs_por_recorrer):usrs_recorridos) ((amigosDe red (head usrs_por_recorrer))++(tail usrs_por_recorrer)) 
+                            | otherwise = [likesDePublicacion (head pubs)] ++ likesDePublicaciones (tail pubs) 
 
 --Esta función auxiliar devuelve True si al menos uno de los de la lista de usuarios está en todas las listas de likes usuarios del segundo parametro,
 --es distinto del creador de la publicacion y pertenece a los usuarios de la red
-tieneUnSeguidorFielAuxiliar :: [Usuario] -> [[Usuario]] -> Usuario -> RedSocial -> Bool
-tieneUnSeguidorFielAuxiliar usrs likesDePubs creador red    | length usrs == 0 = False
+hayUnSeguidorFielEnLosLikes :: [Usuario] -> [[Usuario]] -> Usuario -> RedSocial -> Bool
+hayUnSeguidorFielEnLosLikes usrs likesDePubs creador red    | length usrs == 0 = False
                                                             | (head usrs /= creador) && (estaEnTodasLasListas likesDePubs (head usrs)) && (pertenece (usuarios red) (head usrs)) = True
-                                                            | otherwise = tieneUnSeguidorFielAuxiliar (tail usrs) likesDePubs creador red 
+                                                            | otherwise = hayUnSeguidorFielEnLosLikes (tail usrs) likesDePubs creador red
+
+--Esta funcion auxiliar recorre todos los posibles caminos para ver si se relacionan dos usuarios
+hayCadenaDeAmistad :: RedSocial -> Usuario -> [Usuario] -> [Usuario] -> Bool
+hayCadenaDeAmistad red usuario2 usrs_recorridos usrs_por_recorrer  | (usrs_por_recorrer == []) = False  
+                                                                   | (head usrs_por_recorrer) == usuario2 = True
+                                                                   | pertenece usrs_recorridos (head usrs_por_recorrer) = hayCadenaDeAmistad red usuario2 usrs_recorridos (tail usrs_por_recorrer) 
+                                                                   | otherwise = hayCadenaDeAmistad red usuario2 ((head usrs_por_recorrer):usrs_recorridos) ((amigosDe red (head usrs_por_recorrer))++(tail usrs_por_recorrer))
