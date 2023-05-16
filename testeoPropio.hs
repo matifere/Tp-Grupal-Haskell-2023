@@ -32,6 +32,7 @@ testsMain = test [
 
 testsEjercicio1 = test [
 
+    --Dado que solo importa la lista de usuarios,  no se hacen casos de test exhaustivos para los otros parámetros
     " nombresDeUsuarios sin repeticiones" ~: (nombresDeUsuarios redA) ~?= ["Juan","Natalia","Pedro","Mariela"],
     " nombresDeUsuarios nombres repetidos" ~: (nombresDeUsuarios redB) ~?= ["Juan","Pedro", "Natalia"],
     " nombresDeUsuarios red vacia" ~: (nombresDeUsuarios redVacia) ~?= []
@@ -40,6 +41,7 @@ testsEjercicio1 = test [
 
 testsEjercicio2 = test [
 
+    --Dado que solo importan las relaciones, no se hacen casos de test exhaustivos para los otros parámetros
     " amigosDe con amigos" ~: (amigosDe redA usuario1) ~?= [usuario2, usuario4],
     " amigosDe sin amigos" ~: (amigosDe redB usuario5) ~?= [] 
 
@@ -47,6 +49,7 @@ testsEjercicio2 = test [
 
 testsEjercicio3 = test [
 
+    --Dado que solo importan las relaciones, no se hacen casos de test exhaustivos para los otros parámetros
     " cantidadDeAmigos con amigos" ~: (cantidadDeAmigos redA usuario1) ~?= 2,
     " cantidadDeAmigos sin amigos" ~: (cantidadDeAmigos redB usuario5) ~?= 0
 
@@ -54,7 +57,9 @@ testsEjercicio3 = test [
 
 testsEjercicio4 = test [
 
-    " usuarioConMasAmigos red 'normal'" ~: expectAny (usuarioConMasAmigos redA) [usuario2, usuario4],
+    --Dado que no importan las publicaciones, no se hacen casos de test exhaustivos para ése parámetro
+    " usuarioConMasAmigos una sola respuesta" ~: (usuarioConMasAmigos (usuariosA, [relacion1_2, relacion2_3], publicacionesA)) ~?= usuario2,
+    " usuarioConMasAmigos mútliples respuestas" ~: expectAny (usuarioConMasAmigos redA) [usuario2, usuario4],
     " usuarioConMasAmigos un solo usuario" ~: (usuarioConMasAmigos ([usuario1], [], [])) ~?= usuario1
 
 
@@ -62,6 +67,7 @@ testsEjercicio4 = test [
 
 testsEjercicio5 = test [
 
+    --Dado que solo importan las relaciones, no se hacen casos de test exhaustivos para los otros parámetros
     " estaRobertoCarlos sin Roberto Carlos" ~: (estaRobertoCarlos redA) ~?= False,
     " estaRobertoCarlos con Roberto Carlos" ~: (estaRobertoCarlos redCarlos) ~?= True
 
@@ -69,6 +75,7 @@ testsEjercicio5 = test [
 
 testsEjercicio6 = test [
 
+    --Dado que solo importan las publicaciones, no se hacen casos de test exhaustivos para los otros parámetros
     " publicacionesDe con publicaciones" ~: (publicacionesDe redA usuario2) ~?= [publicacion2_1, publicacion2_2],
     " publicacionesDe con publicaciones y repetidas" ~: (publicacionesDe (usuariosA, [], publicacionesA ++ [publicacion2_1, publicacion2_1, publicacion2_2]) usuario2) ~?= [publicacion2_1, publicacion2_2],
     " publicacionesDe sin publicaciones" ~: (publicacionesDe redB usuario5) ~?= []
@@ -78,6 +85,7 @@ testsEjercicio6 = test [
 
 testsEjercicio7 = test [
 
+    --Dado que solo importan las publicaciones, no se hacen casos de test exhaustivos para los otros parámetros
     " publicacionesQueLeGustanA con likes" ~: (publicacionesQueLeGustanA redA usuario1) ~?= [publicacion2_2, publicacion4_1],
     " publicacionesQueLeGustanA sin likes" ~: (publicacionesQueLeGustanA (usuariosB, [], [publicacion3_1, publicacion3_3]) usuario1) ~?= [],
     " publicacionesQueLeGustanA sin publicaciones" ~: (publicacionesQueLeGustanA (usuariosB, [], []) usuario1) ~?= []
@@ -86,6 +94,7 @@ testsEjercicio7 = test [
 
 testsEjercicio8 = test [
 
+    --Dado que solo importan las publicaciones, no se hacen casos de test exhaustivos para los otros parámetros
     " lesGustanLasMismasPublicaciones sin likes" ~: (lesGustanLasMismasPublicaciones redB usuario1 usuario3) ~?= True,
     " lesGustanLasMismasPublicaciones con likes, distintas" ~: (lesGustanLasMismasPublicaciones redB usuario2 usuario5) ~?= False,
     " lesGustanLasMismasPublicaciones con likes, iguales" ~: (lesGustanLasMismasPublicaciones (usuariosB, [], [publicacion1_3, publicacion3_3]) usuario2 usuario5) ~?= True
@@ -95,6 +104,7 @@ testsEjercicio8 = test [
 
 testsEjercicio9 = test [
 
+    --Dado que solo importan las publicaciones, no se hacen casos de test exhaustivos para los otros parámetros
     " tieneUnSeguidorFiel con seguidor fiel" ~: (tieneUnSeguidorFiel redA usuario1) ~?= True,
     " tieneUnSeguidorFiel sin seguidor fiel" ~: (tieneUnSeguidorFiel (usuariosA, [], publicacion1_3 : publicacionesA) usuario1) ~?= False,
     " tieneUnSeguidorFiel sin publicaciones" ~: (tieneUnSeguidorFiel (usuariosA, [], []) usuario1) ~?= False
@@ -103,6 +113,7 @@ testsEjercicio9 = test [
 
 testsEjercicio10 = test [
 
+    --Dado que solo importan las relaciones, no se hacen casos de test exhaustivos para los otros parámetros
     " existeSecuenciaDeAmigos relacion indirecta" ~: (existeSecuenciaDeAmigos redA usuario1 usuario3) ~?= True,
     " existeSecuenciaDeAmigos relacion directa" ~: (existeSecuenciaDeAmigos redA usuario2 usuario3) ~?= True,
     " existeSecuenciaDeAmigos sin relacion" ~: (existeSecuenciaDeAmigos redB usuario1 usuario5) ~?= False,
