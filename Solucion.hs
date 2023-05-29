@@ -61,7 +61,7 @@ usuarioConMasAmigos red | length (usuarios red) == 1 = head (usuarios red)
 estaRobertoCarlos :: RedSocial -> Bool
 estaRobertoCarlos red = (cantidadDeAmigos red (usuarioConMasAmigos red) > 10)
 
---TESTEAR ESTO
+
 -- describir qué hace la función: devuelve la lista de publicaciones de un usuario de una red social.
 publicacionesDe :: RedSocial -> Usuario -> [Publicacion]
 publicacionesDe (_, _, pubs) u  | length pubs == 0 = []
@@ -74,7 +74,7 @@ publicacionesQueLeGustanA (_, _, []) _ = []
 publicacionesQueLeGustanA (_, _, pubs) usr  | pertenece (likesDePublicacion (head pubs)) usr = sinRepetidos ((head pubs : publicacionesQueLeGustanA ([], [], (tail pubs)) usr))
                                             | otherwise = publicacionesQueLeGustanA ([], [], (tail pubs)) usr
 
---TESTEAR ESTO
+
 -- describir qué hace la función: devuelve True si las listas de publicaciones que les gustan a dos usuarios son idénticas
 lesGustanLasMismasPublicaciones :: RedSocial -> Usuario -> Usuario -> Bool
 lesGustanLasMismasPublicaciones red u1 u2 = (publicacionesQueLeGustanA red u1 == publicacionesQueLeGustanA red u2)
