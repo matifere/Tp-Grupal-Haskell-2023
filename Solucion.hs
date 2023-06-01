@@ -39,13 +39,13 @@ likesDePublicacion (_, _, us) = us
 
 nombresDeUsuarios :: RedSocial -> [String]
 nombresDeUsuarios ([], _, _) = []
-nombresDeUsuarios (us, _, _) = sinRepetidos (nombreDeUsuario (head us) : nombresDeUsuarios ((tail us), [], []))
+nombresDeUsuarios (us, _, _) = sinRepetidos (nombreDeUsuario (head us) : nombresDeUsuarios ((tail us), [], [])) --Acá uso sinRepetidos porque puede haber múltiples usuarios con el mismo nombre
 
 -- describir qué hace la función: devuelve la lista de amigos de un usuario de una red social.
 amigosDe :: RedSocial -> Usuario -> [Usuario]
 amigosDe (_, [], _) _ = []
-amigosDe (_, rels, _) u | (fst (head rels) == u) = sinRepetidos (snd (head rels) : amigosDe ([], (tail rels), []) u)
-                        | (snd (head rels) == u) = sinRepetidos (fst (head rels) : amigosDe ([], (tail rels), []) u)
+amigosDe (_, rels, _) u | (fst (head rels) == u) = (snd (head rels) : amigosDe ([], (tail rels), []) u)
+                        | (snd (head rels) == u) = (fst (head rels) : amigosDe ([], (tail rels), []) u)
                         | otherwise = amigosDe ([], (tail rels), []) u
 
 -- describir qué hace la función: devuelve la cantidad de amigos de un usuario de una red social.
@@ -65,19 +65,19 @@ estaRobertoCarlos red = (cantidadDeAmigos red (usuarioConMasAmigos red) > 10)
 -- describir qué hace la función: devuelve la lista de publicaciones de un usuario de una red social.
 publicacionesDe :: RedSocial -> Usuario -> [Publicacion]
 publicacionesDe (_, _, pubs) u  | length pubs == 0 = []
-                                | u == (usuarioDePublicacion (head pubs)) = sinRepetidos (head pubs : (publicacionesDe ([], [], tail pubs) u))
+                                | u == (usuarioDePublicacion (head pubs)) = (head pubs : (publicacionesDe ([], [], tail pubs) u))
                                 | otherwise = (publicacionesDe ([], [], tail pubs) u)
 
 -- describir qué hace la función: devuelve la lista de publicaciones de una red social que le gustan a un usuario.
 publicacionesQueLeGustanA :: RedSocial -> Usuario -> [Publicacion]
 publicacionesQueLeGustanA (_, _, []) _ = []
-publicacionesQueLeGustanA (_, _, pubs) usr  | pertenece (likesDePublicacion (head pubs)) usr = sinRepetidos ((head pubs : publicacionesQueLeGustanA ([], [], (tail pubs)) usr))
+publicacionesQueLeGustanA (_, _, pubs) usr  | pertenece (likesDePublicacion (head pubs)) usr = ((head pubs : publicacionesQueLeGustanA ([], [], (tail pubs)) usr))
                                             | otherwise = publicacionesQueLeGustanA ([], [], (tail pubs)) usr
 
 
 -- describir qué hace la función: devuelve True si las listas de publicaciones que les gustan a dos usuarios son idénticas
 lesGustanLasMismasPublicaciones :: RedSocial -> Usuario -> Usuario -> Bool
-lesGustanLasMismasPublicaciones red u1 u2 = (publicacionesQueLeGustanA red u1 == publicacionesQueLeGustanA red u2)
+lesGustanLasMismasPublicaciones red u1 u2 = (publicacionesQueLeGustanA red u1 == publicacionesQueLeGustanA red u2) --Es correcto comparar los outputs de las funciones porque la lista de publicaciones que devuelven está ordenada de la misma forma ya que es la misma función que tomá como param la misma red
 
 
 -- describir qué hace la función: devuelve True si existe otro usuario en la red social que dio like a todas las publicaciones del usuario (n° publicaciones > 0).
