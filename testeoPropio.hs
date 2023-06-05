@@ -108,7 +108,8 @@ testsEjercicio9 = test [
     " tieneUnSeguidorFiel con seguidor fiel" ~: (tieneUnSeguidorFiel redA usuario1) ~?= True,
     " tieneUnSeguidorFiel sin seguidor fiel" ~: (tieneUnSeguidorFiel (usuariosA, [], publicacion1_3 : publicacionesA) usuario1) ~?= False,
     " tieneUnSeguidorFiel sin publicaciones" ~: (tieneUnSeguidorFiel (usuariosA, [], []) usuario1) ~?= False
-
+    --añadir publicacion sin likes
+    --añadir publicacion solo con autolikes
     ]
 
 testsEjercicio10 = test [
@@ -118,7 +119,7 @@ testsEjercicio10 = test [
     " existeSecuenciaDeAmigos relacion directa" ~: (existeSecuenciaDeAmigos redA usuario2 usuario3) ~?= True,
     " existeSecuenciaDeAmigos sin relacion" ~: (existeSecuenciaDeAmigos redB usuario1 usuario5) ~?= False,
     " existeSecuenciaDeAmigos con uno mismo" ~: (existeSecuenciaDeAmigos redA usuario1 usuario1) ~?= False
-
+    --añadir cadena de 3+ con uno mismo
     ]
 
 
