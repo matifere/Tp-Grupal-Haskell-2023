@@ -44,7 +44,7 @@ testsEjercicio2 = test [
     --Dado que solo importan las relaciones, no se hacen casos de test exhaustivos para los otros parámetros
     " amigosDe con amigos" ~: (amigosDe redA usuario1) ~?= [usuario2, usuario4],
     " amigosDe sin amigos" ~: (amigosDe redB usuario5) ~?= [] 
-
+    --añadir amigos en la otra coord de la relacion
     ]
 
 testsEjercicio3 = test [
@@ -52,7 +52,7 @@ testsEjercicio3 = test [
     --Dado que solo importan las relaciones, no se hacen casos de test exhaustivos para los otros parámetros
     " cantidadDeAmigos con amigos" ~: (cantidadDeAmigos redA usuario1) ~?= 2,
     " cantidadDeAmigos sin amigos" ~: (cantidadDeAmigos redB usuario5) ~?= 0
-
+    --añadir amigos en la otra coord de la relacion
     ]
 
 testsEjercicio4 = test [
@@ -70,7 +70,7 @@ testsEjercicio5 = test [
     --Dado que solo importan las relaciones, no se hacen casos de test exhaustivos para los otros parámetros
     " estaRobertoCarlos sin Roberto Carlos" ~: (estaRobertoCarlos redA) ~?= False,
     " estaRobertoCarlos con Roberto Carlos" ~: (estaRobertoCarlos redCarlos) ~?= True
-
+    --añadir amigos = 10
     ]
 
 testsEjercicio6 = test [
@@ -89,7 +89,7 @@ testsEjercicio7 = test [
     " publicacionesQueLeGustanA con likes" ~: (publicacionesQueLeGustanA redA usuario1) ~?= [publicacion2_2, publicacion4_1],
     " publicacionesQueLeGustanA sin likes" ~: (publicacionesQueLeGustanA (usuariosB, [], [publicacion3_1, publicacion3_3]) usuario1) ~?= [],
     " publicacionesQueLeGustanA sin publicaciones" ~: (publicacionesQueLeGustanA (usuariosB, [], []) usuario1) ~?= []
-
+    --añadir pub propia
     ]
 
 testsEjercicio8 = test [
