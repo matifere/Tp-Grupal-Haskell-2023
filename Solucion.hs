@@ -70,7 +70,7 @@ publicacionesDe (_, _, pubs) u  | length pubs == 0 = []
 
 -- describir qué hace la función: devuelve la lista de publicaciones de una red social que le gustan a un usuario.
 publicacionesQueLeGustanA :: RedSocial -> Usuario -> [Publicacion]
-publicacionesQueLeGustanA (_, _, []) _ = []
+publicacionesQueLeGustanA (_, _, []) _ = []usuario1]
 publicacionesQueLeGustanA (_, _, pubs) usr  | pertenece (likesDePublicacion (head pubs)) usr = ((head pubs : publicacionesQueLeGustanA ([], [], (tail pubs)) usr))
                                             | otherwise = publicacionesQueLeGustanA ([], [], (tail pubs)) usr
 
@@ -88,7 +88,7 @@ tieneUnSeguidorFiel red u   | publicacionesDe red u == [] = False
 
 -- describir qué hace la función: Dados una red social y dos usuarios, devuelve True si existe una cadena de amistades que relaciona directa o indirectamente a los dos usuarios.
 existeSecuenciaDeAmigos :: RedSocial -> Usuario -> Usuario -> Bool
-existeSecuenciaDeAmigos red usuario1 usuario2   | usuario1 == usuario2 = False
+existeSecuenciaDeAmigos red usuario1 usuario2   | usuario1 == usuario2 = False --cambiar esto para accountear por la cadena loca
                                                 | otherwise = hayCadenaDeAmistad red usuario2 [] [usuario1]
 
 
