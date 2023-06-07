@@ -114,6 +114,7 @@ estaEnTodasLasListas listas y   | largo listas == 0 = False
                                 | pertenece (head listas) y = estaEnTodasLasListas (tail listas) y
                                 | otherwise = False
 
+--Nuestra propia implementación de length, devuelve la cantidad de elementos de una lista
 largo :: [t] -> Int
 largo [] = 0
 largo lista = 1 + largo (tail lista)
