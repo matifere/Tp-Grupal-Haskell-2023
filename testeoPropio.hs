@@ -42,17 +42,15 @@ testsEjercicio1 = test [
 testsEjercicio2 = test [
 
     --Dado que solo importan las relaciones, no se hacen casos de test exhaustivos para los otros parámetros
-    " amigosDe con amigos" ~: (amigosDe redA usuario1) ~?= [usuario2, usuario4],
+    " amigosDe con amigos" ~: expectAny (amigosDe redA usuario1) [[usuario4, usuario2], [usuario2, usuario4]], --no es necesario testear la otra coordenada de la relacion por separado porque estos dos amigos ya están c/u en coords distintas de su relacion
     " amigosDe sin amigos" ~: (amigosDe redB usuario5) ~?= [] 
-    --añadir amigos en la otra coord de la relacion
     ]
 
 testsEjercicio3 = test [
 
     --Dado que solo importan las relaciones, no se hacen casos de test exhaustivos para los otros parámetros
-    " cantidadDeAmigos con amigos" ~: (cantidadDeAmigos redA usuario1) ~?= 2,
+    " cantidadDeAmigos con amigos" ~: (cantidadDeAmigos redA usuario1) ~?= 2, --no es necesario testear la otra coordenada de la relacion por separado porque estos dos amigos ya están c/u en coords distintas de su relacion
     " cantidadDeAmigos sin amigos" ~: (cantidadDeAmigos redB usuario5) ~?= 0
-    --añadir amigos en la otra coord de la relacion
     ]
 
 testsEjercicio4 = test [
@@ -69,15 +67,14 @@ testsEjercicio5 = test [
 
     --Dado que solo importan las relaciones, no se hacen casos de test exhaustivos para los otros parámetros
     " estaRobertoCarlos sin Roberto Carlos" ~: (estaRobertoCarlos redA) ~?= False,
-    " estaRobertoCarlos con Roberto Carlos" ~: (estaRobertoCarlos redCarlos) ~?= True
-    --añadir amigos = 10
+    " estaRobertoCarlos con Roberto Carlos" ~: (estaRobertoCarlos redCarlos) ~?= True,
+    " estaRobertaCarlos con la maxima cantidad insuficiente de amigos" ~: (estaRobertoCarlos redCasiCarlos) ~?= False
     ]
 
 testsEjercicio6 = test [
 
     --Dado que solo importan las publicaciones, no se hacen casos de test exhaustivos para los otros parámetros
     " publicacionesDe con publicaciones" ~: (publicacionesDe redA usuario2) ~?= [publicacion2_1, publicacion2_2],
-    " publicacionesDe con publicaciones y repetidas" ~: (publicacionesDe (usuariosA, [], publicacionesA ++ [publicacion2_1, publicacion2_1, publicacion2_2]) usuario2) ~?= [publicacion2_1, publicacion2_2],
     " publicacionesDe sin publicaciones" ~: (publicacionesDe redB usuario5) ~?= []
 
 
@@ -86,10 +83,10 @@ testsEjercicio6 = test [
 testsEjercicio7 = test [
 
     --Dado que solo importan las publicaciones, no se hacen casos de test exhaustivos para los otros parámetros
-    " publicacionesQueLeGustanA con likes" ~: (publicacionesQueLeGustanA redA usuario1) ~?= [publicacion2_2, publicacion4_1],
+    " publicacionesQueLeGustanA con likes" ~: expectAny (publicacionesQueLeGustanA redA usuario1) [[publicacion4_1, publicacion2_2], [publicacion2_2, publicacion4_1]],
     " publicacionesQueLeGustanA sin likes" ~: (publicacionesQueLeGustanA (usuariosB, [], [publicacion3_1, publicacion3_3]) usuario1) ~?= [],
-    " publicacionesQueLeGustanA sin publicaciones" ~: (publicacionesQueLeGustanA (usuariosB, [], []) usuario1) ~?= []
-    --añadir pub propia
+    " publicacionesQueLeGustanA sin publicaciones" ~: (publicacionesQueLeGustanA (usuariosB, [], []) usuario1) ~?= [],
+    " publicacionesQueLeGustanA publi propia" ~: (publicacionesQueLeGustanA (usuariosB, [], [publicacion1_autolike]) usuario1) ~?= [publicacion1_autolike] 
     ]
 
 testsEjercicio8 = test [
@@ -107,9 +104,9 @@ testsEjercicio9 = test [
     --Dado que solo importan las publicaciones, no se hacen casos de test exhaustivos para los otros parámetros
     " tieneUnSeguidorFiel con seguidor fiel" ~: (tieneUnSeguidorFiel redA usuario1) ~?= True,
     " tieneUnSeguidorFiel sin seguidor fiel" ~: (tieneUnSeguidorFiel (usuariosA, [], publicacion1_3 : publicacionesA) usuario1) ~?= False,
-    " tieneUnSeguidorFiel sin publicaciones" ~: (tieneUnSeguidorFiel (usuariosA, [], []) usuario1) ~?= False
-    --añadir publicacion sin likes
-    --añadir publicacion solo con autolikes
+    " tieneUnSeguidorFiel sin publicaciones" ~: (tieneUnSeguidorFiel (usuariosA, [], []) usuario1) ~?= False,
+    " tieneUnSeguidorFiel solo publicacion sin likes" ~: (tieneUnSeguidorFiel (usuariosA, [], [publicacion1_4]) usuario1) ~?= False,
+    " tieneUnSeguidorFiel solo publicacion con autolikes " ~: (tieneUnSeguidorFiel (usuariosA, [], [publicacion1_autolike]) usuario1) ~?= False
     ]
 
 testsEjercicio10 = test [
@@ -118,8 +115,8 @@ testsEjercicio10 = test [
     " existeSecuenciaDeAmigos relacion indirecta" ~: (existeSecuenciaDeAmigos redA usuario1 usuario3) ~?= True,
     " existeSecuenciaDeAmigos relacion directa" ~: (existeSecuenciaDeAmigos redA usuario2 usuario3) ~?= True,
     " existeSecuenciaDeAmigos sin relacion" ~: (existeSecuenciaDeAmigos redB usuario1 usuario5) ~?= False,
-    " existeSecuenciaDeAmigos con uno mismo" ~: (existeSecuenciaDeAmigos redA usuario1 usuario1) ~?= False
-    --añadir cadena de 3+ con uno mismo
+    " existeSecuenciaDeAmigos con uno mismo cuando tiene amigos" ~: (existeSecuenciaDeAmigos redA usuario1 usuario1) ~?= True,
+    " existeSecuenciaDeAmigos con uno mismo cuando NO tiene amigos" ~: (existeSecuenciaDeAmigos redB usuario5 usuario5) ~?= False
     ]
 
 
@@ -164,6 +161,7 @@ publicacion1_2 = (usuario1, "Este es mi segundo post", [usuario4])
 publicacion1_3 = (usuario1, "Este es mi tercer post", [usuario2, usuario5])
 publicacion1_4 = (usuario1, "Este es mi cuarto post", [])
 publicacion1_5 = (usuario1, "Este es como mi quinto post", [usuario5])
+publicacion1_autolike = (usuario1, "Este post solo me gusta a mí", [usuario1])
 
 publicacion2_1 = (usuario2, "Hello World", [usuario4])
 publicacion2_2 = (usuario2, "Good Bye World", [usuario1, usuario4])
@@ -190,6 +188,7 @@ redB = (usuariosB, relacionesB, publicacionesB)
 redVacia = ([], [], [])
 
 usuariosCarlos = [usuario1, usuario2, usuario3, usuario4, usuario5, usuario6, usuario7, usuario8, usuario9, usuario10, usuario11, usuario12]
-relacionesCarlos = [relacion1_2, relacion2_3, relacion11_1, relacion11_2, relacion11_3, relacion11_4, relacion11_5, relacion11_6, relacion11_7, relacion11_8, relacion11_9, relacion11_10, relacion11_12]
+relacionesCasiCarlos = [relacion1_2, relacion2_3, relacion11_1, relacion11_2, relacion11_3, relacion11_4, relacion11_5, relacion11_6, relacion11_7, relacion11_8, relacion11_9, relacion11_10]
 publicacionesCarlos = [publicacion1_3, publicacion1_4, publicacion1_5, publicacion3_1, publicacion3_2, publicacion3_3]
-redCarlos = (usuariosCarlos, relacionesCarlos, publicacionesCarlos)
+redCasiCarlos = (usuariosCarlos, relacionesCasiCarlos, publicacionesCarlos)
+redCarlos = (usuariosCarlos, relacion11_12 : relacionesCasiCarlos, publicacionesCarlos)

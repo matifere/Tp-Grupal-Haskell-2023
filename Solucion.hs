@@ -50,11 +50,11 @@ amigosDe (_, rels, _) u | (fst (head rels) == u) = (snd (head rels) : amigosDe (
 
 -- describir qué hace la función: devuelve la cantidad de amigos de un usuario de una red social.
 cantidadDeAmigos :: RedSocial -> Usuario -> Int
-cantidadDeAmigos red u = length (amigosDe red u)
+cantidadDeAmigos red u = largo (amigosDe red u)
 
 -- describir qué hace la función: devuelve al usuario con más amigos de una red social dada.
 usuarioConMasAmigos :: RedSocial -> Usuario
-usuarioConMasAmigos red | length (usuarios red) == 1 = head (usuarios red)
+usuarioConMasAmigos red | largo (usuarios red) == 1 = head (usuarios red)
                         | otherwise = quienTieneMasAmigos red (usuarios red)
 
 -- describir qué hace la función: devuelve True si la red social dada tiene algún usuario con más (mayor estricto) de 10 amigos.
@@ -64,13 +64,13 @@ estaRobertoCarlos red = (cantidadDeAmigos red (usuarioConMasAmigos red) > 10)
 
 -- describir qué hace la función: devuelve la lista de publicaciones de un usuario de una red social.
 publicacionesDe :: RedSocial -> Usuario -> [Publicacion]
-publicacionesDe (_, _, pubs) u  | length pubs == 0 = []
+publicacionesDe (_, _, pubs) u  | largo pubs == 0 = []
                                 | u == (usuarioDePublicacion (head pubs)) = (head pubs : (publicacionesDe ([], [], tail pubs) u))
                                 | otherwise = (publicacionesDe ([], [], tail pubs) u)
 
 -- describir qué hace la función: devuelve la lista de publicaciones de una red social que le gustan a un usuario.
 publicacionesQueLeGustanA :: RedSocial -> Usuario -> [Publicacion]
-publicacionesQueLeGustanA (_, _, []) _ = []usuario1]
+publicacionesQueLeGustanA (_, _, []) _ = []
 publicacionesQueLeGustanA (_, _, pubs) usr  | pertenece (likesDePublicacion (head pubs)) usr = ((head pubs : publicacionesQueLeGustanA ([], [], (tail pubs)) usr))
                                             | otherwise = publicacionesQueLeGustanA ([], [], (tail pubs)) usr
 
@@ -88,8 +88,7 @@ tieneUnSeguidorFiel red u   | publicacionesDe red u == [] = False
 
 -- describir qué hace la función: Dados una red social y dos usuarios, devuelve True si existe una cadena de amistades que relaciona directa o indirectamente a los dos usuarios.
 existeSecuenciaDeAmigos :: RedSocial -> Usuario -> Usuario -> Bool
-existeSecuenciaDeAmigos red usuario1 usuario2   | usuario1 == usuario2 = False --cambiar esto para accountear por la cadena loca
-                                                | otherwise = hayCadenaDeAmistad red usuario2 [] [usuario1]
+existeSecuenciaDeAmigos red usuario1 usuario2 = hayCadenaDeAmistad red usuario2 [] [usuario1]
 
 
 
@@ -98,7 +97,7 @@ existeSecuenciaDeAmigos red usuario1 usuario2   | usuario1 == usuario2 = False -
 
 --Esta función auxiliar elimina todas las repeticiones de elementos en una lista 
 sinRepetidos :: (Eq t) => [t] -> [t]
-sinRepetidos list   | length list == 0 = []
+sinRepetidos list   | largo list == 0 = []
                     | (pertenece (tail list) (head list)) == True = sinRepetidos (tail list)
                     | otherwise = [head list] ++ sinRepetidos (tail list)
 
@@ -110,35 +109,38 @@ pertenece list y    | head list == y = True
 
 --Esta función auxiliar toma una lista de listas genéricas y un elemento del mismo tipo y devuelve True si su el elemento está en todas las listas de la lista de listas
 estaEnTodasLasListas :: (Eq t) => [[t]] -> t -> Bool
-estaEnTodasLasListas listas y   | length listas == 0 = False
+estaEnTodasLasListas listas y   | largo listas == 0 = False
                                 | (tail listas) == [] = pertenece (head listas) y
                                 | pertenece (head listas) y = estaEnTodasLasListas (tail listas) y
                                 | otherwise = False
 
+largo :: [t] -> Int
+largo [] = 0
+largo lista = 1 + largo (tail lista)
 
 
 --Esta funcion auxiliar se encarga de comparar que usuario tiene mas amigos dentro de una lista
 quienTieneMasAmigos :: RedSocial -> [Usuario] -> Usuario
-quienTieneMasAmigos red (x:y:xs)    | length (xs) == 0 && cantidadDeAmigos red x >= cantidadDeAmigos red y = x
-                                    | length (xs) == 0 && cantidadDeAmigos red x < cantidadDeAmigos red y = y
+quienTieneMasAmigos red (x:y:xs)    | largo (xs) == 0 && cantidadDeAmigos red x >= cantidadDeAmigos red y = x
+                                    | largo (xs) == 0 && cantidadDeAmigos red x < cantidadDeAmigos red y = y
                                     | cantidadDeAmigos red x >= cantidadDeAmigos red y = quienTieneMasAmigos red (x:xs)
                                     | cantidadDeAmigos red x < cantidadDeAmigos red y = quienTieneMasAmigos red (y:xs)
 
 --Esta función auxiliar devuelve una lista compuesta por todas las listas de likes de una lista de publicaciones
 likesDePublicaciones :: [Publicacion] -> [[Usuario]]
-likesDePublicaciones pubs   | length pubs == 0 = []
+likesDePublicaciones pubs   | largo pubs == 0 = []
                             | otherwise = [likesDePublicacion (head pubs)] ++ likesDePublicaciones (tail pubs) 
 
 --Esta función auxiliar devuelve True si al menos uno de los de la lista de usuarios está en todas las listas de likes usuarios del segundo parametro,
 --es distinto del creador de la publicacion y pertenece a los usuarios de la red
 hayUnSeguidorFielEnLosLikes :: [Usuario] -> [[Usuario]] -> Usuario -> RedSocial -> Bool
-hayUnSeguidorFielEnLosLikes usrs likesDePubs creador red    | length usrs == 0 = False
+hayUnSeguidorFielEnLosLikes usrs likesDePubs creador red    | largo usrs == 0 = False
                                                             | (head usrs /= creador) && (estaEnTodasLasListas likesDePubs (head usrs)) && (pertenece (usuarios red) (head usrs)) = True
                                                             | otherwise = hayUnSeguidorFielEnLosLikes (tail usrs) likesDePubs creador red
 
 --Esta funcion auxiliar recorre todos los posibles caminos para ver si se relacionan dos usuarios
 hayCadenaDeAmistad :: RedSocial -> Usuario -> [Usuario] -> [Usuario] -> Bool
 hayCadenaDeAmistad red usuario2 usrs_recorridos usrs_por_recorrer  | (usrs_por_recorrer == []) = False  
-                                                                   | (head usrs_por_recorrer) == usuario2 = True
+                                                                   | ((head usrs_por_recorrer) == usuario2) && (usrs_recorridos /= []) = True --reviso que usrs_recorridos no esté vacía para que no dé True siempre al principio
                                                                    | pertenece usrs_recorridos (head usrs_por_recorrer) = hayCadenaDeAmistad red usuario2 usrs_recorridos (tail usrs_por_recorrer) 
                                                                    | otherwise = hayCadenaDeAmistad red usuario2 ((head usrs_por_recorrer):usrs_recorridos) ((amigosDe red (head usrs_por_recorrer))++(tail usrs_por_recorrer))
